@@ -13,13 +13,12 @@ export async function getUsers() {
                 username: true,
                 name: true,
                 role: true,
-                status: true, // We can add this to schema if needed, for now we map it
                 createdAt: true
             }
         })
-        return users.map(u => ({
+        return users.map((u: any) => ({
             ...u,
-            status: 'active' // Everything in DB is active for now
+            status: 'active'
         }))
     } catch (err) {
         console.error("Failed to fetch users:", err)
