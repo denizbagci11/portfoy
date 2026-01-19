@@ -319,7 +319,18 @@ export default function DashboardStats() {
                                     <div className="avatar bg-primary text-white rounded-circle d-flex align-items-center justify-content-center fw-bold" style={{ width: 32, height: 32 }}>
                                         {stat.asset.substring(0, 1)}
                                     </div>
-                                    <h6 className="mb-0 fw-bold">{stat.asset}</h6>
+                                    <div className="d-flex flex-column">
+                                        <h6 className="mb-0 fw-bold">{stat.asset}</h6>
+                                        {!['TRY', 'USD', 'EUR', 'GBP'].includes(stat.asset) && (
+                                            <span
+                                                className={`badge mt-1 ${assetSettings[stat.asset]?.driver === 'USD' ? 'bg-info text-dark' : 'bg-warning text-dark'}`}
+                                                style={{ fontSize: '0.6rem', cursor: 'pointer', width: 'fit-content' }}
+                                                onClick={() => updateDriver(stat.asset, assetSettings[stat.asset]?.driver === 'USD' ? 'TRY' : 'USD')}
+                                            >
+                                                {assetSettings[stat.asset]?.driver === 'USD' ? 'USD Bazlı' : 'TL Bazlı'}
+                                            </span>
+                                        )}
+                                    </div>
                                 </div>
                                 <div className="text-end">
                                     <div className="small text-white-50" style={{ fontSize: '0.7rem' }}>Bakiye</div>
