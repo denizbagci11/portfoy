@@ -2,8 +2,10 @@ import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import prisma from "./lib/prisma";
 import bcrypt from "bcryptjs";
+import { authConfig } from "./auth.config";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+    ...authConfig,
     providers: [
         Credentials({
             credentials: {
@@ -29,53 +31,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 return {
                     id: user.id,
                     name: user.name || user.username,
-                    email: user.username + "@dbank.com", // Virtual email for session
+                    email: user.username + "@dbank.com",
                     role: user.role,
-                };
+                } as any;
             },
         }),
     ],
-    pages: {
-        signIn: "/login",
-    },
-    callbacks: {
-        authorized({ auth, request: { nextUrl } }) {
-            const isLoggedIn = !!auth?.user;
-            const isOnDashboard = nextUrl.pathname === "/" || nextUrl.pathname.startsWith("/analiz") || nextUrl.pathname.startsWith("/transactions");
-            const isOnLogin = nextUrl.pathname.startsWith("/login");
-            const isOnAdmin = nextUrl.pathname.startsWith("/admin");
-
-            if (isOnDashboard || isOnAdmin) {
-                if (isLoggedIn) {
-                    // Admin check for /admin path
-                    if (isOnAdmin && (auth.user as any).role !== 'admin') {
-                        return Response.redirect(new URL("/", nextUrl));
-                    }
-                    return true;
-                }
-                return false;
-            } else if (isOnLogin) {
-                if (isLoggedIn) {
-                    return Response.redirect(new URL("/", nextUrl));
-                }
-                return true;
-            }
-            return true;
-        },
-        jwt({ token, user }) {
-            if (user) {
-                // @ts-ignore
-                token.role = user.role;
-            }
-            return token;
-        },
-        session({ session, token }) {
-            if (session.user && token.role) {
-                // @ts-ignore
-                session.user.role = token.role;
-            }
-            return session;
-        },
-    },
 });
+
 
