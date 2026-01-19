@@ -205,9 +205,14 @@ export async function updateAssetDriverAction(asset: string, driver: string) {
 
 export async function updateAssetPriceAction(asset: string, price: number, currency: string) {
     try {
+        console.log('[updateAssetPriceAction] Called:', { asset, price, currency });
         const session = await auth()
-        if (!session?.user?.id) return { success: false }
+        if (!session?.user?.id) {
+            console.error('[updateAssetPriceAction] No session');
+            return { success: false, error: 'Oturum yok' }
+        }
 
+        console.log('[updateAssetPriceAction] Upserting to DB...');
         await (prisma.assetSettings as any).upsert({
             where: {
                 asset_userId: {
@@ -218,11 +223,12 @@ export async function updateAssetPriceAction(asset: string, price: number, curre
             update: { manualPrice: price, priceCurrency: currency },
             create: { asset, driver: 'USD', manualPrice: price, priceCurrency: currency, userId: session.user.id }
         })
+        console.log('[updateAssetPriceAction] Success');
         revalidatePath('/')
         return { success: true }
-    } catch (err) {
+    } catch (err: any) {
         console.error("Asset price update error:", err)
-        return { success: false }
+        return { success: false, error: err.message || String(err) }
     }
 }
 
