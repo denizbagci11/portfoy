@@ -337,6 +337,22 @@ export async function updateAssetDataSource(asset: string, source: string, ticke
     }
 }
 
+// Fetch TEFAS price (server-side to avoid CORS)
+export async function fetchTefasPriceAction(fundCode: string) {
+    try {
+        const { fetchTefasPrice } = await import('./lib/priceApis')
+        const price = await fetchTefasPrice(fundCode)
+
+        if (price !== null) {
+            return { success: true, price }
+        }
+        return { success: false, error: 'Price not found' }
+    } catch (err) {
+        console.error("[fetchTefasPriceAction] Error:", err)
+        return { success: false, error: String(err) }
+    }
+}
+
 export async function fetchAndUpdatePrices() {
     try {
         const session = await auth()
