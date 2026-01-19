@@ -5,10 +5,12 @@ import { Transaction } from './lib/types'
 import { revalidatePath } from 'next/cache'
 
 export async function getTransactions(): Promise<Transaction[]> {
+    console.log("🔍 getTransactions called...")
     try {
         const data = await prisma.transaction.findMany({
             orderBy: { date: 'desc' }
         })
+        console.log(`✅ Fetched ${data.length} transactions from DB.`)
         return data.map(t => ({
             id: t.id,
             type: t.type as any,
