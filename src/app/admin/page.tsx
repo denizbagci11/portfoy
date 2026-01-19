@@ -43,9 +43,9 @@ export default function AdminPage() {
         <div className="container py-5">
             <div className="d-flex justify-content-between align-items-center mb-4">
                 <h2 className="mb-0 ls-1">YÖNETİCİ PANELİ</h2>
-                <div className="badge bg-warning text-dark d-flex align-items-center gap-2 p-2">
-                    <AlertTriangle size={16} />
-                    <span>Demo Modu (Vercel)</span>
+                <div className="badge bg-success text-white d-flex align-items-center gap-2 p-2 shadow-sm pulse-slow">
+                    <div className="bg-white rounded-circle" style={{ width: '8px', height: '8px' }}></div>
+                    <span>Veritabanı Aktif (Prisma)</span>
                 </div>
             </div>
 
@@ -54,9 +54,9 @@ export default function AdminPage() {
                     <h5 className="mb-0">Kullanıcı Yönetimi</h5>
                 </div>
                 <div className="card-body bg-dark text-white">
-                    <div className="alert alert-info border-0 d-flex align-items-center gap-2">
+                    <div className="alert alert-success border-0 d-flex align-items-center gap-2 bg-success bg-opacity-10 text-success">
                         <AlertTriangle size={18} />
-                        <small>Not: Vercel üzerinde veritabanı olmadığı için burada yapılan değişiklikler kalıcı olmayacaktır. Mevcut yetkili tek kullanıcı: <strong>deniz.bagci</strong></small>
+                        <small>Vercel Postgres veritabanı başarıyla bağlandı. Tüm finansal kayıtlar ve ayarlar bulutta kalıcı olarak saklanmaktadır. Mevcut yönetici: <strong>deniz.bagci</strong></small>
                     </div>
 
                     <form onSubmit={handleAddUser} className="d-flex gap-2 mb-4">
