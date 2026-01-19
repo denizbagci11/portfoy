@@ -321,15 +321,13 @@ export default function DashboardStats() {
                                     </div>
                                     <div className="d-flex flex-column">
                                         <h6 className="mb-0 fw-bold">{stat.asset}</h6>
-                                        {!['TRY', 'USD', 'EUR', 'GBP'].includes(stat.asset) && (
-                                            <span
-                                                className={`badge mt-1 ${assetSettings[stat.asset]?.driver === 'USD' ? 'bg-info text-dark' : 'bg-warning text-dark'}`}
-                                                style={{ fontSize: '0.6rem', cursor: 'pointer', width: 'fit-content' }}
-                                                onClick={() => updateDriver(stat.asset, assetSettings[stat.asset]?.driver === 'USD' ? 'TRY' : 'USD')}
-                                            >
-                                                {assetSettings[stat.asset]?.driver === 'USD' ? 'USD Bazlı' : 'TL Bazlı'}
-                                            </span>
-                                        )}
+                                        <span
+                                            className={`badge mt-1 ${assetSettings[stat.asset]?.driver === 'USD' ? 'bg-info text-dark' : 'bg-warning text-dark'}`}
+                                            style={{ fontSize: '0.6rem', cursor: 'pointer', width: 'fit-content' }}
+                                            onClick={() => updateDriver(stat.asset, assetSettings[stat.asset]?.driver === 'USD' ? 'TRY' : 'USD')}
+                                        >
+                                            {assetSettings[stat.asset]?.driver === 'USD' ? 'USD Bazlı' : 'TL Bazlı'}
+                                        </span>
                                     </div>
                                 </div>
                                 <div className="text-end">
