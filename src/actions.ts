@@ -359,6 +359,22 @@ export async function fetchTefasPriceAction(fundCode: string) {
     }
 }
 
+// Fetch Yahoo Finance price (server-side)
+export async function fetchYahooPriceAction(ticker: string) {
+    try {
+        const { fetchYahooFinancePrice } = await import('./lib/priceApis')
+        const price = await fetchYahooFinancePrice(ticker)
+
+        if (price !== null) {
+            return { success: true, price }
+        }
+        return { success: false, error: 'Price not found' }
+    } catch (err) {
+        console.error("[fetchYahooPriceAction] Error:", err)
+        return { success: false, error: String(err) }
+    }
+}
+
 export async function fetchAndUpdatePrices() {
     try {
         const session = await auth()
