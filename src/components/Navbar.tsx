@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, History, PlusCircle, TrendingUp, Download, Upload } from 'lucide-react';
+import { LayoutDashboard, History, PlusCircle, TrendingUp, Download, Upload, Settings } from 'lucide-react';
 import { usePortfolio } from '@/lib/store';
 import { useRef } from 'react';
 import { signOut } from 'next-auth/react';
@@ -67,6 +67,12 @@ export default function Navbar({ session }: NavbarProps) {
                             <Link className={`nav-link d-flex align-items-center gap-1 ${pathname === '/analiz' ? 'active text-primary' : ''}`} href="/analiz">
                                 <TrendingUp size={18} />
                                 <span className="d-none d-sm-inline">Analizler</span>
+                            </Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className={`nav-link d-flex align-items-center gap-1 ${pathname === '/kaynak-secimi' ? 'active text-primary' : ''}`} href="/kaynak-secimi">
+                                <Settings size={18} />
+                                <span className="d-none d-sm-inline">Kaynak Seçimi</span>
                             </Link>
                         </li>
 
