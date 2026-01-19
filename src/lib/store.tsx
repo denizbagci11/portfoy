@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { Transaction } from './types';
+import { SessionProvider, useSession } from 'next-auth/react';
 import {
     getTransactions,
     addTransactionAction,
@@ -25,36 +26,56 @@ interface PortfolioContextType {
 
 const PortfolioContext = createContext<PortfolioContextType | undefined>(undefined);
 
+function DataLoader({
+    setTransactions,
+    setAssetDrivers,
+    setIsLoading
+}: {
+    setTransactions: any,
+    setAssetDrivers: any,
+    setIsLoading: any
+}) {
+    const { data: session, status } = useSession();
+
+    useEffect(() => {
+        const loadFromDB = async () => {
+            if (status === 'unauthenticated') {
+                setTransactions([]);
+                setAssetDrivers({});
+                setIsLoading(false);
+                return;
+            }
+
+            if (status === 'authenticated') {
+                setIsLoading(true);
+                try {
+                    const [dbTransactions, dbSettings] = await Promise.all([
+                        getTransactions(),
+                        getAssetSettings()
+                    ]);
+                    setTransactions(dbTransactions);
+                    setAssetDrivers(dbSettings);
+                } catch (err) {
+                    console.error("Failed to load data from DB:", err);
+                } finally {
+                    setIsLoading(false);
+                }
+            }
+        };
+
+        loadFromDB();
+    }, [status, session?.user?.id, setTransactions, setAssetDrivers, setIsLoading]);
+
+    return null;
+}
+
 export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     const [transactions, setTransactions] = useState<Transaction[]>([]);
     const [assetDrivers, setAssetDrivers] = useState<Record<string, 'USD' | 'TRY'>>({});
     const [isLoading, setIsLoading] = useState(true);
 
-    // Initial load from Database
-    useEffect(() => {
-        const loadFromDB = async () => {
-            setIsLoading(true);
-            try {
-                const [dbTransactions, dbSettings] = await Promise.all([
-                    getTransactions(),
-                    getAssetSettings()
-                ]);
-
-                // @ts-ignore
-                setTransactions(dbTransactions);
-                // @ts-ignore
-                setAssetDrivers(dbSettings);
-            } catch (err) {
-                console.error("Failed to load data from DB:", err);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        loadFromDB();
-    }, []);
-
     const addTransaction = async (transaction: Transaction) => {
+        // ... (rest remains same)
         // Optimistic update
         setTransactions(prev => [transaction, ...prev]);
 
@@ -62,10 +83,10 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
         if (!result.success) {
             // Revert on failure
             setTransactions(prev => prev.filter(t => t.id !== transaction.id));
-            alert("İşlem kaydedilemedi. Lütfen tekrar deneyin.");
-        } else {
-            // Update with real ID if cuid was generated server side
-            // (Our client side generates it too, but just in case)
+            alert("İşlem kaydedilemedi: " + (result.error || "Bilinmeyen hata"));
+        } else if (result.id) {
+            // Update with real ID from server
+            setTransactions(prev => prev.map(t => t.id === transaction.id ? { ...t, id: result.id! } : t));
         }
     };
 
@@ -137,19 +158,26 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     };
 
     return (
-        <PortfolioContext.Provider value={{
-            transactions,
-            addTransaction,
-            updateTransaction,
-            removeTransaction,
-            assetDrivers,
-            updateDriver,
-            isLoading,
-            exportData,
-            importData
-        }}>
-            {children}
-        </PortfolioContext.Provider>
+        <SessionProvider>
+            <DataLoader
+                setTransactions={setTransactions}
+                setAssetDrivers={setAssetDrivers}
+                setIsLoading={setIsLoading}
+            />
+            <PortfolioContext.Provider value={{
+                transactions,
+                addTransaction,
+                updateTransaction,
+                removeTransaction,
+                assetDrivers,
+                updateDriver,
+                isLoading,
+                exportData,
+                importData
+            }}>
+                {children}
+            </PortfolioContext.Provider>
+        </SessionProvider>
     );
 }
 

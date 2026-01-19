@@ -26,25 +26,43 @@ export async function getUsers() {
     }
 }
 
-export async function createUserAction(username: string, role: string = 'viewer') {
+export async function updateUserRoleAction(id: string, role: string) {
     try {
-        // For simplicity in this demo, let's set a default password for new users
-        // that they can change later (or we could pass it here).
-        // Let's use a standard pattern for now.
-        const defaultPassword = 'Portfoy123!'
-        const hashedPassword = await bcrypt.hash(defaultPassword, 10)
+        // Prevent changing main admin role
+        const user = await prisma.user.findUnique({ where: { id } })
+        if (user?.username === 'deniz.bagci') {
+            return { success: false, error: 'Ana yönetici yetkisi değiştirilemez!' }
+        }
+
+        await prisma.user.update({
+            where: { id },
+            data: { role }
+        })
+
+        revalidatePath('/admin')
+        return { success: true }
+    } catch (err) {
+        console.error("Failed to update user role:", err)
+        return { success: false, error: 'Yetki güncellenemedi.' }
+    }
+}
+
+export async function createUserAction(username: string, role: string = 'viewer', password?: string) {
+    try {
+        const userPassword = password || 'Portfoy123!'
+        const hashedPassword = await bcrypt.hash(userPassword, 10)
 
         await prisma.user.create({
             data: {
                 username,
                 password: hashedPassword,
                 role,
-                name: username.split('.')[0] // Basic name generation
+                name: username.split('.')[0]
             }
         })
 
         revalidatePath('/admin')
-        return { success: true, password: defaultPassword }
+        return { success: true, password: userPassword }
     } catch (err: any) {
         console.error("Failed to create user:", err)
         if (err.code === 'P2002') {

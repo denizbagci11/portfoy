@@ -17,22 +17,32 @@ model Transaction {
   priceTRY  Float
   usdRate   Float
   
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model AssetSettings {
-  asset   String @unique
+  id      String @id @default(cuid())
+  asset   String
   driver  String // 'USD' | 'TRY'
+  userId  String
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([asset, userId])
 }
 
 model User {
-  id        String   @id @default(cuid())
-  username  String   @unique
-  password  String   // Hashed password
-  name      String?
-  role      String   @default("viewer") // 'admin' | 'viewer'
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id            String   @id @default(cuid())
+  username      String   @unique
+  password      String   // Hashed password
+  name          String?
+  role          String   @default("viewer") // 'admin' | 'viewer' | 'investor'
+  transactions  Transaction[]
+  assetSettings AssetSettings[]
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
 

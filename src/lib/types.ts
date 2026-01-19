@@ -9,6 +9,7 @@ export interface Transaction {
     amountGram: number; // Deprecated, kept for backward compatibility alias to amount
     priceTRY: number;   // Birim Fiyat (TL)
     usdRate: number;    // USD/TRY Kuru
+    userId?: string;    // User ID owner
 
     // Hesaplanan/Türetilen
     totalTRY: number;
@@ -16,7 +17,15 @@ export interface Transaction {
     priceUSD: number;   // priceTRY / usdRate
 }
 
+export interface User {
+    id: string;
+    username: string;
+    name?: string | null;
+    role: string;
+}
+
 export interface PortfolioStats {
+    // ...
     totalGram: number;
     totalValueUSD: number;     // Güncel kur ile
     totalCostUSD: number;      // Tarihsel maliyet

@@ -38,12 +38,13 @@ export default function PortfolioChart({
     const chartData = useMemo(() => {
         if (transactions.length === 0) return [];
 
-        // 1. Sort Transactions Chronologically
+        // 1. Sort Transactions Chronologically and Filter out Future Dates
+        const now = new Date();
         const sortedTransactions = [...transactions]
+            .filter(t => new Date(t.date) <= now)
             .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
         // 2. Determine Date Range
-        const now = new Date();
         const firstTransactionDate = new Date(sortedTransactions[0].date);
         const maxTransactionDate = new Date(Math.max(...sortedTransactions.map(t => new Date(t.date).getTime())));
         const endDate = maxTransactionDate > now ? maxTransactionDate : now;
