@@ -152,19 +152,15 @@ export default function DashboardStats() {
     const handleYahooSelect = async (asset: string) => {
         try {
             const { fetchYahooPriceAction } = await import('@/actions');
-            // Check if asset already has suffix (e.g. .IS), if not maybe assume or ask?
-            // For now use asset as is, but user might need to enter ticker manually in future.
-
-            // Auto-append .IS for Turkish assets if not present?
-            // Actually, let's just try with asset code. If fails, user might need to rename asset or we need a mapping.
-            // But user specifically asked for "AKBNK.IS". If asset name is "AKBNK", we might need to append.
-            // Let's rely on asset name for now.
 
             const result = await fetchYahooPriceAction(asset);
 
             if (result.success && result.price) {
+                // GC=F and PL=F are USD, others (like .IS stocks) are TRY
+                const currency = (asset === 'GC=F' || asset === 'PL=F') ? 'USD' : 'TRY';
+
                 // Update store (optimistic + DB)
-                await updateAssetPrice(asset, result.price, 'TRY'); // Assuming TRY for .IS stocks
+                await updateAssetPrice(asset, result.price, currency);
 
                 // Update local view immediately
                 setViewSettings(prev => ({
@@ -172,7 +168,7 @@ export default function DashboardStats() {
                     [asset]: {
                         ...(prev[asset] || { driver: 'USD' }),
                         manualPrice: result.price,
-                        priceCurrency: 'TRY'
+                        priceCurrency: currency
                     }
                 }));
             } else {
@@ -199,7 +195,7 @@ export default function DashboardStats() {
 
     // 1. Identify all unique assets
     const assets = useMemo(() => {
-        const unique = new Set(filteredTransactions.map(t => (t.asset || 'GOLD').trim().toUpperCase()));
+        const unique = new Set(filteredTransactions.map(t => (t.asset || 'GC=F').trim().toUpperCase()));
         return Array.from(unique);
     }, [filteredTransactions]);
 
@@ -207,7 +203,7 @@ export default function DashboardStats() {
     const assetStats = useMemo(() => {
         return assets.map(asset => {
             const normalizedAsset = asset.trim().toUpperCase();
-            const assetTransactions = filteredTransactions.filter(t => (t.asset || 'GOLD').trim().toUpperCase() === normalizedAsset);
+            const assetTransactions = filteredTransactions.filter(t => (t.asset || 'GC=F').trim().toUpperCase() === normalizedAsset);
 
             // Get settings for this asset (driver, manualPrice)
             const settings = viewSettings[normalizedAsset] || { driver: 'USD' };
@@ -264,12 +260,12 @@ export default function DashboardStats() {
         const histTransactions = filteredTransactions.filter(t => new Date(t.date) <= targetDate);
         if (histTransactions.length === 0) return { valueUSD: 0, valueTRY: 0, date: targetDate };
 
-        const histAssetsNames = Array.from(new Set(histTransactions.map(t => (t.asset || 'GOLD').trim().toUpperCase())));
+        const histAssetsNames = Array.from(new Set(histTransactions.map(t => (t.asset || 'GC=F').trim().toUpperCase())));
         let totalValUSD = 0;
         let totalValTRY = 0;
 
         histAssetsNames.forEach(asset => {
-            const assetTxs = histTransactions.filter(t => (t.asset || 'GOLD').trim().toUpperCase() === asset);
+            const assetTxs = histTransactions.filter(t => (t.asset || 'GC=F').trim().toUpperCase() === asset);
             let histPriceUSD = 0;
             const lastTx = [...assetTxs].reverse().find(t => t.priceUSD > 0);
             if (lastTx) histPriceUSD = lastTx.priceUSD;

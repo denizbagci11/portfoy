@@ -182,14 +182,14 @@ function TransactionFormContent() {
                                         required
                                     />
                                     <datalist id="assets">
-                                        <option value="GOLD" />
+                                        <option value="GC=F" />
                                         <option value="USD" />
                                         <option value="EUR" />
                                         <option value="GBP" />
                                         <option value="XU100" />
                                         <option value="BTC" />
                                         <option value="TRY" />
-                                        <option value="XPT" />
+                                        <option value="PL=F" />
                                     </datalist>
                                     <div className="form-text mt-1 text-muted small">
                                         Vadesiz TRY, USD, EUR, GBP varlıklarınız için kutuya adını yazmanız yeterlidir. Örn: TRY için <b>TRY</b>.

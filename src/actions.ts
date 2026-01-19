@@ -363,9 +363,13 @@ export async function fetchTefasPriceAction(fundCode: string) {
 export async function fetchYahooPriceAction(ticker: string) {
     try {
         const { fetchYahooFinancePrice } = await import('./lib/priceApis')
-        const price = await fetchYahooFinancePrice(ticker)
+        let price = await fetchYahooFinancePrice(ticker)
 
         if (price !== null) {
+            // Special handling for Gold (GC=F) and Platinum (PL=F) to convert Ounce to Gram
+            if (ticker === 'GC=F' || ticker === 'PL=F') {
+                price = price / 31.1035
+            }
             return { success: true, price }
         }
         return { success: false, error: 'Price not found' }

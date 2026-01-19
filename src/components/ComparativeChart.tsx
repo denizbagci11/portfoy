@@ -73,10 +73,10 @@ export default function ComparativeChart({
         let goldPrice1Y = 0; // Capture Gold Price 1 Year Ago for Benchmark
 
         if (histTransactions.length > 0) {
-            const histAssetsNames = Array.from(new Set(histTransactions.map(t => (t.asset || 'GOLD').trim().toUpperCase())));
+            const histAssetsNames = Array.from(new Set(histTransactions.map(t => (t.asset || 'GC=F').trim().toUpperCase())));
 
             histAssetsNames.forEach(asset => {
-                const assetTxs = histTransactions.filter(t => (t.asset || 'GOLD').trim().toUpperCase() === asset);
+                const assetTxs = histTransactions.filter(t => (t.asset || 'GC=F').trim().toUpperCase() === asset);
 
                 // Determine Historical Price from Transactions
                 let histPriceUSD = 0;
@@ -93,7 +93,7 @@ export default function ComparativeChart({
                 }
 
                 // Capture Gold specifically
-                if (asset === 'GOLD' && histPriceUSD > 0) {
+                if (asset === 'GC=F' && histPriceUSD > 0) {
                     goldPrice1Y = histPriceUSD;
                 }
 
@@ -117,10 +117,10 @@ export default function ComparativeChart({
         let profTodayUSD = 0;
         let totalCstTodayUSD = 0;
 
-        const allAssetsNames = Array.from(new Set(sorted.map(t => (t.asset || 'GOLD').trim().toUpperCase())));
+        const allAssetsNames = Array.from(new Set(sorted.map(t => (t.asset || 'GC=F').trim().toUpperCase())));
 
         allAssetsNames.forEach(asset => {
-            const assetTxs = sorted.filter(t => (t.asset || 'GOLD').trim().toUpperCase() === asset);
+            const assetTxs = sorted.filter(t => (t.asset || 'GC=F').trim().toUpperCase() === asset);
             const priceInfo = currentPrices[asset] || { price: 0, currency: 'USD' };
 
             const currentPrice = asset === 'TRY'
@@ -157,9 +157,9 @@ export default function ComparativeChart({
 
         // --- 2. Calculate Gold Benchmark (Dynamic) ---
         let goldFinal = 0;
-        const goldPriceNow = currentPrices['GOLD']?.currency === 'TRY'
-            ? (currentPrices['GOLD'].price / usdTryRate)
-            : (currentPrices['GOLD']?.price || 0);
+        const goldPriceNow = currentPrices['GC=F']?.currency === 'TRY'
+            ? (currentPrices['GC=F'].price / usdTryRate)
+            : (currentPrices['GC=F']?.price || 0);
 
         if (goldPriceNow > 0 && goldPrice1Y > 0) {
             const goldGrowth = (goldPriceNow - goldPrice1Y) / goldPrice1Y;
