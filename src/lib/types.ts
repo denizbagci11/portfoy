@@ -34,3 +34,13 @@ export interface PortfolioStats {
     profitRatio: number;       // profitUSD / totalCostUSD
     xirr: number;              // Yıllıklandırılmış getiri
 }
+
+export interface AssetSettings {
+    driver: string;
+    manualPrice?: number | null;
+    priceCurrency?: string | null;
+}
+
+export interface UserPreferences {
+    [key: string]: string;
+}

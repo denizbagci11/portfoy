@@ -25,24 +25,37 @@ model Transaction {
 }
 
 model AssetSettings {
-  id      String @id @default(cuid())
-  asset   String
-  driver  String // 'USD' | 'TRY'
-  userId  String
-  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id            String @id @default(cuid())
+  asset         String
+  driver        String // 'USD' | 'TRY'
+  manualPrice   Float? // Persistent manual price
+  priceCurrency String? // 'USD' | 'TRY'
+  userId        String
+  user          User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([asset, userId])
 }
 
+model UserPreference {
+  id      String @id @default(cuid())
+  key     String // e.g., 'usdTryRate', 'eurUsdRate'
+  value   String
+  userId  String
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([key, userId])
+}
+
 model User {
-  id            String   @id @default(cuid())
-  username      String   @unique
-  password      String   // Hashed password
-  name          String?
-  role          String   @default("viewer") // 'admin' | 'viewer' | 'investor'
-  transactions  Transaction[]
-  assetSettings AssetSettings[]
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id              String   @id @default(cuid())
+  username        String   @unique
+  password        String   // Hashed password
+  name            String?
+  role            String   @default("viewer") // 'admin' | 'viewer' | 'investor'
+  transactions    Transaction[]
+  assetSettings   AssetSettings[]
+  userPreferences UserPreference[]
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 }
 

@@ -152,9 +152,15 @@ export async function getAssetSettings() {
         const settings = await prisma.assetSettings.findMany({
             where: { userId: session.user.id } as any
         })
-        return settings.reduce((acc, curr) => ({
+
+        // Return full settings keyed by asset
+        return settings.reduce((acc, curr: any) => ({
             ...acc,
-            [curr.asset]: curr.driver
+            [curr.asset]: {
+                driver: curr.driver,
+                manualPrice: curr.manualPrice,
+                priceCurrency: curr.priceCurrency
+            }
         }), {})
     } catch (err) {
         return {}
@@ -180,6 +186,69 @@ export async function updateAssetDriverAction(asset: string, driver: string) {
         return { success: true }
     } catch (err) {
         console.error("Asset driver update error:", err)
+        return { success: false }
+    }
+}
+
+export async function updateAssetPriceAction(asset: string, price: number, currency: string) {
+    try {
+        const session = await auth()
+        if (!session?.user?.id) return { success: false }
+
+        await (prisma.assetSettings as any).upsert({
+            where: {
+                asset_userId: {
+                    asset,
+                    userId: session.user.id
+                }
+            },
+            update: { manualPrice: price, priceCurrency: currency },
+            create: { asset, driver: 'USD', manualPrice: price, priceCurrency: currency, userId: session.user.id }
+        })
+        revalidatePath('/')
+        return { success: true }
+    } catch (err) {
+        console.error("Asset price update error:", err)
+        return { success: false }
+    }
+}
+
+export async function getUserPreferencesAction() {
+    try {
+        const session = await auth()
+        if (!session?.user?.id) return {}
+
+        const prefs = await (prisma as any).userPreference.findMany({
+            where: { userId: session.user.id }
+        })
+
+        return prefs.reduce((acc: any, curr: any) => ({
+            ...acc,
+            [curr.key]: curr.value
+        }), {})
+    } catch (err) {
+        return {}
+    }
+}
+
+export async function saveUserPreferenceAction(key: string, value: string) {
+    try {
+        const session = await auth()
+        if (!session?.user?.id) return { success: false }
+
+        await (prisma as any).userPreference.upsert({
+            where: {
+                key_userId: {
+                    key,
+                    userId: session.user.id
+                }
+            },
+            update: { value },
+            create: { key, value, userId: session.user.id }
+        })
+        return { success: true }
+    } catch (err) {
+        console.error("Preference save error:", err)
         return { success: false }
     }
 }

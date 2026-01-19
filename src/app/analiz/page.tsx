@@ -2,56 +2,38 @@
 
 import { usePortfolio } from '@/lib/store';
 import { calculateAssetStats } from '@/lib/finance';
-import { useMemo, useState, useEffect } from 'react';
+import { useMemo } from 'react';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from 'recharts';
-import Navbar from '@/components/Navbar';
 import ComparativeChart from '@/components/ComparativeChart';
 
 export default function AnalizPage() {
-    const { transactions, assetDrivers } = usePortfolio();
+    const { transactions, assetSettings, userPreferences } = usePortfolio();
 
-    // Global Rates (Sync with DashboardStats)
-    const [usdTryRate, setUsdTryRate] = useState(33.50);
-    const [eurUsdRate, setEurUsdRate] = useState(1.08);
-    const [gbpUsdRate, setGbpUsdRate] = useState(1.27);
-    const [prices, setPrices] = useState<Record<string, { price: number; currency?: 'USD' | 'TRY' }>>({
-        'GOLD': { price: 75.5, currency: 'USD' },
-        'USD': { price: 1.0, currency: 'USD' },
-        'EUR': { price: 1.10, currency: 'USD' },
-        'BTC': { price: 65000, currency: 'USD' },
-        'XPT': { price: 31.0, currency: 'USD' },
-    });
+    // Global Rates (from Preferences)
+    const usdTryRate = parseFloat(userPreferences.usdTryRate || '33.50');
+    const eurUsdRate = parseFloat(userPreferences.eurUsdRate || '1.08');
+    const gbpUsdRate = parseFloat(userPreferences.gbpUsdRate || '1.27');
 
-    useEffect(() => {
-        const fetchRates = async () => {
-            try {
-                const resTry = await fetch('https://api.frankfurter.app/latest?from=USD&to=TRY');
-                const dataTry = await resTry.json();
-                if (dataTry && dataTry.rates && dataTry.rates.TRY) setUsdTryRate(dataTry.rates.TRY);
-
-                const resEur = await fetch('https://api.frankfurter.app/latest?from=EUR&to=USD');
-                const dataEur = await resEur.json();
-                if (dataEur && dataEur.rates && dataEur.rates.USD) setEurUsdRate(dataEur.rates.USD);
-
-                const resGbp = await fetch('https://api.frankfurter.app/latest?from=GBP&to=USD');
-                const dataGbp = await resGbp.json();
-                if (dataGbp && dataGbp.rates && dataGbp.rates.USD) setGbpUsdRate(dataGbp.rates.USD);
-            } catch (error) {
-                console.error('Failed to fetch rates:', error);
-            }
+    // Derived prices from assetSettings
+    const prices = useMemo(() => {
+        const p: Record<string, { price: number; currency?: 'USD' | 'TRY' }> = {
+            'GOLD': { price: 75.5, currency: 'USD' },
+            'USD': { price: 1.0, currency: 'USD' },
+            'EUR': { price: 1.10, currency: 'USD' },
+            'BTC': { price: 65000, currency: 'USD' },
+            'XPT': { price: 31.0, currency: 'USD' },
         };
 
-        const storedPrices = localStorage.getItem('portfolio_prices');
-        if (storedPrices) {
-            try {
-                setPrices(prev => ({ ...prev, ...JSON.parse(storedPrices) }));
-            } catch (e) {
-                console.error("Failed to parse stored prices", e);
+        Object.entries(assetSettings).forEach(([asset, settings]) => {
+            if (settings.manualPrice) {
+                p[asset] = {
+                    price: settings.manualPrice,
+                    currency: (settings.priceCurrency as 'USD' | 'TRY') || 'USD'
+                };
             }
-        }
-
-        fetchRates();
-    }, []);
+        });
+        return p;
+    }, [assetSettings]);
 
     const distributionData = useMemo(() => {
         const assets = Array.from(new Set(transactions.map(t => (t.asset || 'GOLD').trim().toUpperCase())));
@@ -77,7 +59,7 @@ export default function AnalizPage() {
                                 : priceInfo.price);
 
             const stats = calculateAssetStats(assetTransactions, currentPrice, usdTryRate);
-            const driver = assetDrivers[normalizedAsset] || 'TRY';
+            const driver = assetSettings[normalizedAsset]?.driver || 'TRY';
 
             if (driver === 'USD') {
                 usdTotalVal += stats.totalValueTRY;
@@ -93,7 +75,7 @@ export default function AnalizPage() {
             { name: 'Döviz Türevi', value: usdTotalVal, percent: ((usdTotalVal / total) * 100).toFixed(1) },
             { name: 'TL Türevi', value: tryTotalVal, percent: ((tryTotalVal / total) * 100).toFixed(1) }
         ];
-    }, [transactions, prices, usdTryRate, eurUsdRate, gbpUsdRate, assetDrivers]);
+    }, [transactions, prices, usdTryRate, eurUsdRate, gbpUsdRate, assetSettings]);
 
     const COLORS = ['#0d6efd', '#198754'];
 

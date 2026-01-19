@@ -9,7 +9,14 @@ import { useSession } from 'next-auth/react';
 import { getUsers } from '@/userActions';
 
 export default function DashboardStats() {
-    const { transactions, assetDrivers, updateDriver } = usePortfolio();
+    const {
+        transactions,
+        assetSettings,
+        updateDriver,
+        updateAssetPrice,
+        userPreferences,
+        saveUserPreference
+    } = usePortfolio();
     const { data: session } = useSession();
 
     // Admin Specific
@@ -29,33 +36,60 @@ export default function DashboardStats() {
     const [gbpUsdRate, setGbpUsdRate] = useState(1.27);
     const [rateDate, setRateDate] = useState<string>('');
 
+    // Load initial rates from preferences
+    useEffect(() => {
+        if (userPreferences.usdTryRate) setUsdTryRate(parseFloat(userPreferences.usdTryRate));
+        if (userPreferences.eurUsdRate) setEurUsdRate(parseFloat(userPreferences.eurUsdRate));
+        if (userPreferences.gbpUsdRate) setGbpUsdRate(parseFloat(userPreferences.gbpUsdRate));
+    }, [userPreferences]);
+
     useEffect(() => {
         const fetchRates = async () => {
             try {
                 const resTry = await fetch('https://api.frankfurter.app/latest?from=USD&to=TRY');
                 const dataTry = await resTry.json();
                 if (dataTry && dataTry.rates && dataTry.rates.TRY) {
-                    setUsdTryRate(dataTry.rates.TRY);
+                    const newRate = dataTry.rates.TRY;
+                    setUsdTryRate(newRate);
+                    // Persist to DB if different (or just always to ensure sync)
+                    if (Math.abs(newRate - parseFloat(userPreferences.usdTryRate || '0')) > 0.01) {
+                        saveUserPreference('usdTryRate', newRate.toString());
+                    }
                     if (!rateDate) setRateDate(dataTry.date);
                 }
 
                 const resEur = await fetch('https://api.frankfurter.app/latest?from=EUR&to=USD');
                 const dataEur = await resEur.json();
                 if (dataEur && dataEur.rates && dataEur.rates.USD) {
-                    setEurUsdRate(dataEur.rates.USD);
+                    const newRate = dataEur.rates.USD;
+                    setEurUsdRate(newRate);
+                    if (Math.abs(newRate - parseFloat(userPreferences.eurUsdRate || '0')) > 0.001) {
+                        saveUserPreference('eurUsdRate', newRate.toString());
+                    }
                 }
 
                 const resGbp = await fetch('https://api.frankfurter.app/latest?from=GBP&to=USD');
                 const dataGbp = await resGbp.json();
                 if (dataGbp && dataGbp.rates && dataGbp.rates.USD) {
-                    setGbpUsdRate(dataGbp.rates.USD);
+                    const newRate = dataGbp.rates.USD;
+                    setGbpUsdRate(newRate);
+                    if (Math.abs(newRate - parseFloat(userPreferences.gbpUsdRate || '0')) > 0.001) {
+                        saveUserPreference('gbpUsdRate', newRate.toString());
+                    }
                 }
             } catch (error) {
                 console.error('Failed to fetch rates:', error);
             }
         };
         fetchRates();
-    }, [rateDate]);
+    }, []); // Run on mount
+
+    const handleRateChange = (key: string, value: string) => {
+        const val = parseFloat(value);
+        if (key === 'usdTryRate') setUsdTryRate(val);
+        // Persist
+        saveUserPreference(key, value);
+    };
 
     // Filter transactions based on selected user (for Admin)
     const filteredTransactions = useMemo(() => {
@@ -69,47 +103,18 @@ export default function DashboardStats() {
         return Array.from(unique);
     }, [filteredTransactions]);
 
-    // 2. Manage prices
-    interface PriceData {
-        price: number;
-        currency?: 'USD' | 'TRY';
-        lastUpdated?: string;
-    }
-
-    const [prices, setPrices] = useState<Record<string, PriceData>>({
-        'GOLD': { price: 75.5, currency: 'USD' },
-        'USD': { price: 1.0, currency: 'USD' },
-        'EUR': { price: 1.10, currency: 'USD' },
-        'BTC': { price: 65000, currency: 'USD' },
-        'XPT': { price: 31.0, currency: 'USD' },
-    });
-
-    useEffect(() => {
-        const storedPrices = localStorage.getItem('portfolio_prices');
-        if (storedPrices) {
-            try {
-                setPrices(prev => ({ ...prev, ...JSON.parse(storedPrices) }));
-            } catch (e) { }
-        }
-    }, []);
-
-    const handlePriceChange = (asset: string, val: string, currency: 'USD' | 'TRY') => {
-        const newPrice = Number(parseFloat(val) || 0);
-        const now = new Date();
-        const timestamp = `${now.toLocaleDateString('tr-TR')} ${now.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' })}`;
-        setPrices(prev => {
-            const updated = { ...prev, [asset]: { price: newPrice, currency, lastUpdated: timestamp } };
-            localStorage.setItem('portfolio_prices', JSON.stringify(updated));
-            return updated;
-        });
-    };
-
     // 3. Calculate stats
     const assetStats = useMemo(() => {
         return assets.map(asset => {
             const normalizedAsset = asset.trim().toUpperCase();
             const assetTransactions = filteredTransactions.filter(t => (t.asset || 'GOLD').trim().toUpperCase() === normalizedAsset);
-            const priceInfo = prices[normalizedAsset] || { price: 0, currency: 'USD' };
+
+            // Get settings for this asset (driver, manualPrice)
+            const settings = assetSettings[normalizedAsset] || { driver: 'USD' };
+            const priceInfo = {
+                price: settings.manualPrice || 0,
+                currency: settings.priceCurrency || 'USD'
+            };
 
             const currentPrice = normalizedAsset === 'TRY' ? (usdTryRate > 0 ? 1 / usdTryRate : 0)
                 : normalizedAsset === 'USD' ? 1.0
@@ -141,7 +146,7 @@ export default function DashboardStats() {
                 formattedGrowthTRY: (stats.profitRatioTRY * 100).toFixed(1),
             };
         });
-    }, [filteredTransactions, assets, prices, usdTryRate, eurUsdRate, gbpUsdRate]);
+    }, [filteredTransactions, assets, assetSettings, usdTryRate, eurUsdRate, gbpUsdRate]);
 
     const totalPortfolioValueUSD = assetStats.reduce((sum, item) => sum + (item.totalValueUSD || 0), 0);
     const totalPortfolioCostUSD = assetStats.reduce((sum, item) => sum + (item.totalCostUSD || 0), 0);
@@ -184,12 +189,27 @@ export default function DashboardStats() {
     const periodProfitTRY = totalPortfolioValueTRY - oneYearAgoStats.valueTRY;
     const periodGrowthTRY = oneYearAgoStats.valueTRY > 0 ? (periodProfitTRY / oneYearAgoStats.valueTRY) * 100 : 0;
 
+    // Use currentPrices logic for chart (derived from assetSettings)
+    const currentPrices = useMemo(() => {
+        const prices: any = {};
+        assets.forEach(asset => {
+            const settings = assetSettings[asset];
+            if (settings?.manualPrice) {
+                prices[asset] = {
+                    price: settings.manualPrice,
+                    currency: settings.priceCurrency || 'USD'
+                };
+            }
+        });
+        return prices;
+    }, [assets, assetSettings]);
+
     return (
         <div>
             {/* Portfolio History Chart */}
             <PortfolioChart
                 transactions={filteredTransactions}
-                currentPrices={prices}
+                currentPrices={currentPrices}
                 currentUsdRate={usdTryRate}
                 eurUsdRate={eurUsdRate}
                 gbpUsdRate={gbpUsdRate}
@@ -222,7 +242,8 @@ export default function DashboardStats() {
                             type="number"
                             className="form-control bg-light border-0 fw-bold text-end"
                             value={usdTryRate}
-                            onChange={(e) => setUsdTryRate(parseFloat(e.target.value))}
+                            step="0.01"
+                            onChange={(e) => handleRateChange('usdTryRate', e.target.value)}
                         />
                     </div>
                     {rateDate && <div className="text-muted small mt-1" style={{ fontSize: '0.65rem' }}>{rateDate}</div>}
@@ -348,16 +369,16 @@ export default function DashboardStats() {
                                                     <input type="number"
                                                         className="form-control form-control-sm"
                                                         placeholder="USD Price"
-                                                        onChange={(e) => handlePriceChange(stat.asset, e.target.value, 'USD')}
-                                                        value={prices[stat.asset]?.currency === 'USD' ? prices[stat.asset]?.price : ''}
+                                                        onChange={(e) => updateAssetPrice(stat.asset, parseFloat(e.target.value), 'USD')}
+                                                        value={assetSettings[stat.asset]?.priceCurrency === 'USD' ? (assetSettings[stat.asset]?.manualPrice || '') : ''}
                                                     />
                                                 </div>
                                                 <div className="col-6">
                                                     <input type="number"
                                                         className="form-control form-control-sm"
                                                         placeholder="TRY Price"
-                                                        onChange={(e) => handlePriceChange(stat.asset, e.target.value, 'TRY')}
-                                                        value={prices[stat.asset]?.currency === 'TRY' ? prices[stat.asset]?.price : ''}
+                                                        onChange={(e) => updateAssetPrice(stat.asset, parseFloat(e.target.value), 'TRY')}
+                                                        value={assetSettings[stat.asset]?.priceCurrency === 'TRY' ? (assetSettings[stat.asset]?.manualPrice || '') : ''}
                                                     />
                                                 </div>
                                             </div>
