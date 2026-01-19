@@ -1,0 +1,27 @@
+generator client {
+  provider = "prisma-client-js"
+  engineType = "library"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Transaction {
+  id        String   @id @default(cuid())
+  type      String   // 'BUY' | 'SELL'
+  asset     String
+  date      DateTime
+  amount    Float
+  priceTRY  Float
+  usdRate   Float
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model AssetSettings {
+  asset   String @unique
+  driver  String // 'USD' | 'TRY'
+}
