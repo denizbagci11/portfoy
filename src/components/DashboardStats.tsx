@@ -115,6 +115,26 @@ export default function DashboardStats() {
         fetchRates();
     }, []); // Run on mount
 
+    // Fetch TEFAS price for AK2
+    const handleFetchTefasPrice = async () => {
+        try {
+            const { fetchTefasPrice } = await import('@/lib/priceApis');
+            const price = await fetchTefasPrice('AK2');
+
+            if (price) {
+                // Update TRY price
+                updateAssetPrice('AK2', price, 'TRY');
+
+                alert(`TEFAS fiyatı çekildi!\nTRY: ${price.toFixed(6)}`);
+            } else {
+                alert('TEFAS fiyatı çekilemedi. Lütfen tekrar deneyin.');
+            }
+        } catch (error) {
+            console.error('TEFAS fetch error:', error);
+            alert('Bir hata oluştu: ' + error);
+        }
+    };
+
     const handleRateChange = (key: string, value: string) => {
         const val = parseFloat(value);
         if (key === 'usdTryRate') setUsdTryRate(val);
@@ -422,7 +442,7 @@ export default function DashboardStats() {
                                                     <button type="button" className="btn btn-outline-secondary">
                                                         Manuel
                                                     </button>
-                                                    <button type="button" className="btn btn-outline-info">
+                                                    <button type="button" className="btn btn-outline-info" onClick={handleFetchTefasPrice}>
                                                         TEFAS
                                                     </button>
                                                     <button type="button" className="btn btn-outline-success">
