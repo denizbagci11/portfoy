@@ -15,6 +15,12 @@ async function main() {
 
     console.log(`Found ${initialTransactions.length} transactions in seedData.ts`)
 
+    const user = await prisma.user.findUnique({ where: { username: 'deniz.bagci' } });
+    if (!user) {
+        console.error('❌ User deniz.bagci not found. Run seed first.')
+        return
+    }
+
     for (const t of initialTransactions) {
         await prisma.transaction.create({
             data: {
@@ -24,6 +30,7 @@ async function main() {
                 amount: Number(t.amountGram || t.amount),
                 priceTRY: Number(t.priceTRY),
                 usdRate: Number(t.usdRate),
+                userId: user.id
             }
         })
     }
