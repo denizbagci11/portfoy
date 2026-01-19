@@ -303,11 +303,20 @@ export async function getAssetDataSources() {
     }
 }
 
+
 export async function updateAssetDataSource(asset: string, source: string, ticker: string) {
     try {
-        const session = await auth()
-        if (!session?.user?.id) return { success: false }
+        console.log('[updateAssetDataSource] Called with:', { asset, source, ticker });
 
+        const session = await auth()
+        console.log('[updateAssetDataSource] Session:', session?.user?.id ? 'exists' : 'missing');
+
+        if (!session?.user?.id) {
+            console.error('[updateAssetDataSource] No session or user ID');
+            return { success: false, error: 'No session' }
+        }
+
+        console.log('[updateAssetDataSource] Upserting to database...');
         await (prisma as any).assetDataSource.upsert({
             where: {
                 asset_userId: {
@@ -319,11 +328,12 @@ export async function updateAssetDataSource(asset: string, source: string, ticke
             create: { asset, source, ticker, userId: session.user.id }
         })
 
+        console.log('[updateAssetDataSource] Success!');
         revalidatePath('/')
         return { success: true }
     } catch (err) {
-        console.error("Error updating asset data source:", err)
-        return { success: false }
+        console.error("[updateAssetDataSource] Error:", err)
+        return { success: false, error: String(err) }
     }
 }
 
