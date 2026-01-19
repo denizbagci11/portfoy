@@ -157,7 +157,7 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
         const result = await updateAssetPriceAction(asset, price, currency);
         if (!result.success) {
             setAssetSettings(prev => ({ ...prev, [asset]: original }));
-            alert("Fiyat güncellenemedi.");
+            alert("Fiyat güncellenemedi: " + (result.error || 'Bilinmeyen hata'));
         }
     };
 
