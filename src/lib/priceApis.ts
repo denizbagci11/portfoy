@@ -70,14 +70,37 @@ export async function fetchTefasPrice(fundCode: string): Promise<number | null> 
 
         const html = await response.text();
 
-        // Parse HTML to find "Son Fiyat (TL)" value
-        // Looking for pattern like: <span id="MainContent_FormViewMainIndicators_LabelPrice">2.8234</span>
-        const priceMatch = html.match(/id="MainContent_FormViewMainIndicators_LabelPrice"[^>]*>([0-9.,]+)</);
+        // Try multiple patterns to find the price
+        let priceStr: string | null = null;
 
-        if (priceMatch && priceMatch[1]) {
+        // Pattern 1: MainContent_FormViewMainIndicators_LabelPrice
+        const pattern1 = /id="MainContent_FormViewMainIndicators_LabelPrice"[^>]*>([0-9.,]+)</;
+        const match1 = html.match(pattern1);
+        if (match1 && match1[1]) {
+            priceStr = match1[1];
+        }
+
+        // Pattern 2: "Son Fiyat (TL)" followed by whitespace and price
+        if (!priceStr) {
+            const pattern2 = /Son Fiyat \(TL\)[\s\S]*?([0-9]+[.,][0-9]+)/;
+            const match2 = html.match(pattern2);
+            if (match2 && match2[1]) {
+                priceStr = match2[1];
+            }
+        }
+
+        // Pattern 3: Just look for "Son Fiyat" and grab next number
+        if (!priceStr) {
+            const pattern3 = /Son Fiyat[^0-9]*([0-9]+[.,][0-9]+)/;
+            const match3 = html.match(pattern3);
+            if (match3 && match3[1]) {
+                priceStr = match3[1];
+            }
+        }
+
+        if (priceStr) {
             // Replace comma with dot for parsing (Turkish number format uses comma)
-            const priceStr = priceMatch[1].replace(',', '.');
-            const price = parseFloat(priceStr);
+            const price = parseFloat(priceStr.replace(',', '.'));
 
             if (!isNaN(price)) {
                 return price;
