@@ -413,6 +413,25 @@ export default function DashboardStats() {
                                             <div className="small text-muted">Ort. Maliyet: <span className="fw-bold text-dark">${stat.averageCostUSD.toFixed(2)}</span></div>
                                             <div className={`badge ${stat.xirr >= 0 ? 'bg-success' : 'bg-danger'}`}>XIRR: {(stat.xirr * 100).toFixed(1)}%</div>
                                         </div>
+
+                                        {/* Data Source Selection - Only for AK2 */}
+                                        {stat.asset === 'AK2' && (
+                                            <div className="mb-3">
+                                                <div className="small text-muted mb-2" style={{ fontSize: '0.7rem' }}>Fiyat Kaynağı</div>
+                                                <div className="btn-group btn-group-sm w-100" role="group">
+                                                    <button type="button" className="btn btn-outline-secondary">
+                                                        Manuel
+                                                    </button>
+                                                    <button type="button" className="btn btn-outline-info">
+                                                        TEFAS
+                                                    </button>
+                                                    <button type="button" className="btn btn-outline-success">
+                                                        Yahoo
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        )}
+
                                         <div className="mt-2 border-top pt-2">
                                             <div className="row g-1">
                                                 <div className="col-6">
