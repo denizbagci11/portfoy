@@ -5,7 +5,7 @@
 
 /**
  * Fetch price from Yahoo Finance
- * @param ticker - Yahoo Finance ticker symbol (e.g., "GC=F" for gold, "AAPL" for Apple)
+ * @param ticker - Yahoo Finance ticker symbol (e.g., "GC=F" for gold, "AKBNK.IS" for Akbank)
  * @returns Price in USD or null if failed
  */
 export async function fetchYahooFinancePrice(ticker: string): Promise<number | null> {
@@ -15,12 +15,16 @@ export async function fetchYahooFinancePrice(ticker: string): Promise<number | n
 
         const response = await fetch(url, {
             headers: {
-                'User-Agent': 'Mozilla/5.0'
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+                'Accept': 'application/json',
+                'Accept-Language': 'en-US,en;q=0.9'
             }
         });
 
         if (!response.ok) {
-            console.error(`Yahoo Finance API error: ${response.status}`);
+            console.error(`Yahoo Finance API error: ${response.status} for ticker ${ticker}`);
+            const text = await response.text();
+            console.error('Response:', text.substring(0, 200));
             return null;
         }
 
@@ -30,13 +34,15 @@ export async function fetchYahooFinancePrice(ticker: string): Promise<number | n
         const price = data?.chart?.result?.[0]?.meta?.regularMarketPrice;
 
         if (typeof price === 'number' && !isNaN(price)) {
+            console.log(`Successfully fetched ${ticker}: ${price}`);
             return price;
         }
 
-        console.error('Invalid price data from Yahoo Finance');
+        console.error('Invalid price data from Yahoo Finance for ticker:', ticker);
+        console.error('Response structure:', JSON.stringify(data).substring(0, 300));
         return null;
     } catch (error) {
-        console.error('Error fetching Yahoo Finance price:', error);
+        console.error('Error fetching Yahoo Finance price for ticker:', ticker, error);
         return null;
     }
 }
