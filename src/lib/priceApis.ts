@@ -42,51 +42,43 @@ export async function fetchYahooFinancePrice(ticker: string): Promise<number | n
 }
 
 /**
- * Fetch price from TEFAS
- * @param fundCode - TEFAS fund code (e.g., "AAK", "AFK")
+ * Fetch price from TEFAS using web scraping
+ * @param fundCode - TEFAS fund code (e.g., "AK2", "AAK")
  * @returns Price in TRY or null if failed
  */
 export async function fetchTefasPrice(fundCode: string): Promise<number | null> {
     try {
-        // TEFAS API endpoint (unofficial)
-        const url = `https://www.tefas.gov.tr/api/DB/BindHistoryInfo`;
-
-        const today = new Date();
-        const formattedDate = today.toISOString().split('T')[0]; // YYYY-MM-DD
+        // TEFAS fund analysis page URL
+        const url = `https://www.tefas.gov.tr/FonAnaliz.aspx?FonKod=${fundCode.toUpperCase()}`;
 
         const response = await fetch(url, {
-            method: 'POST',
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'User-Agent': 'Mozilla/5.0'
-            },
-            body: new URLSearchParams({
-                fontip: fundCode.toUpperCase(),
-                bastarih: formattedDate,
-                bittarih: formattedDate,
-                fonturkod: ''
-            })
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+            }
         });
 
         if (!response.ok) {
-            console.error(`TEFAS API error: ${response.status}`);
+            console.error(`TEFAS page error: ${response.status}`);
             return null;
         }
 
-        const data = await response.json();
+        const html = await response.text();
 
-        // Extract price from response
-        // TEFAS returns array of fund data, we want the latest price
-        if (data?.data && Array.isArray(data.data) && data.data.length > 0) {
-            const latestData = data.data[0];
-            const price = parseFloat(latestData.FIYAT);
+        // Parse HTML to find "Son Fiyat (TL)" value
+        // Looking for pattern like: <span id="MainContent_FormViewMainIndicators_LabelPrice">2.8234</span>
+        const priceMatch = html.match(/id="MainContent_FormViewMainIndicators_LabelPrice"[^>]*>([0-9.,]+)</);
+
+        if (priceMatch && priceMatch[1]) {
+            // Replace comma with dot for parsing (Turkish number format uses comma)
+            const priceStr = priceMatch[1].replace(',', '.');
+            const price = parseFloat(priceStr);
 
             if (!isNaN(price)) {
                 return price;
             }
         }
 
-        console.error('Invalid price data from TEFAS');
+        console.error('Could not find price in TEFAS page HTML');
         return null;
     } catch (error) {
         console.error('Error fetching TEFAS price:', error);
