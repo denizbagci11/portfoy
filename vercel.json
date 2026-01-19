@@ -1,6 +1,5 @@
 {
     "framework": "nextjs",
     "buildCommand": "npm run build",
-    "outputDirectory": ".next",
-    "ignoreCommand": "git check-ignore -v ."
+    "outputDirectory": ".next"
 }
