@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@prisma/client": "^6.19.2",
+    "bcryptjs": "^3.0.3",
     "bootstrap": "^5.3.8",
     "bootswatch": "^5.3.8",
     "date-fns": "^4.1.0",
@@ -24,6 +25,7 @@
     "xirr": "^1.1.0"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

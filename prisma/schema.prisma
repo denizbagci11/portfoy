@@ -25,3 +25,14 @@ model AssetSettings {
   asset   String @unique
   driver  String // 'USD' | 'TRY'
 }
+
+model User {
+  id        String   @id @default(cuid())
+  username  String   @unique
+  password  String   // Hashed password
+  name      String?
+  role      String   @default("viewer") // 'admin' | 'viewer'
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+

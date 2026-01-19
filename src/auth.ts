@@ -1,5 +1,7 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
+import prisma from "./lib/prisma";
+import bcrypt from "bcryptjs";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
     providers: [
@@ -9,37 +11,49 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 password: { label: "Password", type: "password" },
             },
             authorize: async (credentials) => {
-                // Hardcoded checks for the specific admin user
-                if (
-                    credentials?.username === "deniz.bagci" &&
-                    credentials?.password === "7WC?d7e]9s9q"
-                ) {
-                    // Return the user object if valid
-                    return {
-                        id: "1",
-                        name: "Dbank Admin",
-                        email: "admin@dbank.com",
-                        role: "admin",
-                    };
-                }
+                if (!credentials?.username || !credentials?.password) return null;
 
-                // Return null if invalid
-                return null;
+                const user = await prisma.user.findUnique({
+                    where: { username: credentials.username as string }
+                });
+
+                if (!user) return null;
+
+                const isValid = await bcrypt.compare(
+                    credentials.password as string,
+                    user.password
+                );
+
+                if (!isValid) return null;
+
+                return {
+                    id: user.id,
+                    name: user.name || user.username,
+                    email: user.username + "@dbank.com", // Virtual email for session
+                    role: user.role,
+                };
             },
         }),
     ],
     pages: {
-        signIn: "/login", // Redirect strict protections here
+        signIn: "/login",
     },
     callbacks: {
         authorized({ auth, request: { nextUrl } }) {
             const isLoggedIn = !!auth?.user;
             const isOnDashboard = nextUrl.pathname === "/" || nextUrl.pathname.startsWith("/analiz") || nextUrl.pathname.startsWith("/transactions");
             const isOnLogin = nextUrl.pathname.startsWith("/login");
+            const isOnAdmin = nextUrl.pathname.startsWith("/admin");
 
-            if (isOnDashboard) {
-                if (isLoggedIn) return true;
-                return false; // Redirect unauthenticated users to login page
+            if (isOnDashboard || isOnAdmin) {
+                if (isLoggedIn) {
+                    // Admin check for /admin path
+                    if (isOnAdmin && (auth.user as any).role !== 'admin') {
+                        return Response.redirect(new URL("/", nextUrl));
+                    }
+                    return true;
+                }
+                return false;
             } else if (isOnLogin) {
                 if (isLoggedIn) {
                     return Response.redirect(new URL("/", nextUrl));
@@ -64,3 +78,4 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         },
     },
 });
+
