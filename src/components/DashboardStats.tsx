@@ -115,32 +115,42 @@ export default function DashboardStats() {
         fetchRates();
     }, []); // Run on mount
 
-    // Fetch TEFAS price for AK2 (using server action to avoid CORS)
-    const handleFetchTefasPrice = async () => {
+    // Fetch TEFAS price dynamically
+    const handleFetchTefasPrice = async (asset: string) => {
         try {
             const { fetchTefasPriceAction } = await import('@/actions');
-            const result = await fetchTefasPriceAction('AK2');
+            const result = await fetchTefasPriceAction(asset);
 
             if (result.success && result.price) {
                 // Update store (optimistic + DB)
-                await updateAssetPrice('AK2', result.price, 'TRY');
+                await updateAssetPrice(asset, result.price, 'TRY');
 
                 // Update local view immediately
                 setViewSettings(prev => ({
                     ...prev,
-                    'AK2': {
-                        ...(prev['AK2'] || { driver: 'USD' }),
+                    [asset]: {
+                        ...(prev[asset] || { driver: 'USD' }),
                         manualPrice: result.price,
                         priceCurrency: 'TRY'
                     }
                 }));
             } else {
-                alert('TEFAS fiyatı çekilemedi: ' + (result.error || 'Bilinmeyen hata'));
+                alert(`${asset} için TEFAS fiyatı çekilemedi: ` + (result.error || 'Fiyat bulunamadı'));
             }
         } catch (error) {
             console.error('TEFAS fetch error:', error);
             alert('Bir hata oluştu: ' + error);
         }
+    };
+
+    const handleManualSelect = (asset: string) => {
+        // Just set source logic if needed later, for now visual or enables inputs
+        // Currently inputs are always enabled, so maybe just a visual toggle?
+        console.log('Manual selected for', asset);
+    };
+
+    const handleYahooSelect = (asset: string) => {
+        alert("Yahoo Finance entegrasyonu yakında eklenecek!");
     };
 
     const handleRateChange = (key: string, value: string) => {
@@ -442,23 +452,21 @@ export default function DashboardStats() {
                                             <div className={`badge ${stat.xirr >= 0 ? 'bg-success' : 'bg-danger'}`}>XIRR: {(stat.xirr * 100).toFixed(1)}%</div>
                                         </div>
 
-                                        {/* Data Source Selection - Only for AK2 */}
-                                        {stat.asset === 'AK2' && (
-                                            <div className="mb-3">
-                                                <div className="small text-muted mb-2" style={{ fontSize: '0.7rem' }}>Fiyat Kaynağı</div>
-                                                <div className="btn-group btn-group-sm w-100" role="group">
-                                                    <button type="button" className="btn btn-outline-secondary">
-                                                        Manuel
-                                                    </button>
-                                                    <button type="button" className="btn btn-outline-info" onClick={handleFetchTefasPrice}>
-                                                        TEFAS
-                                                    </button>
-                                                    <button type="button" className="btn btn-outline-success">
-                                                        Yahoo
-                                                    </button>
-                                                </div>
+                                        {/* Data Source Selection */}
+                                        <div className="mb-3">
+                                            <div className="small text-muted mb-2" style={{ fontSize: '0.7rem' }}>Fiyat Kaynağı</div>
+                                            <div className="btn-group btn-group-sm w-100" role="group">
+                                                <button type="button" className="btn btn-outline-secondary" onClick={() => handleManualSelect(stat.asset)}>
+                                                    Manuel
+                                                </button>
+                                                <button type="button" className="btn btn-outline-info" onClick={() => handleFetchTefasPrice(stat.asset)}>
+                                                    TEFAS
+                                                </button>
+                                                <button type="button" className="btn btn-outline-success" onClick={() => handleYahooSelect(stat.asset)}>
+                                                    Yahoo
+                                                </button>
                                             </div>
-                                        )}
+                                        </div>
 
                                         <div className="mt-2 border-top pt-2">
                                             <div className="row g-1">
