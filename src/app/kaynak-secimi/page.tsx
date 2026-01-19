@@ -7,10 +7,12 @@ import { Settings } from 'lucide-react';
 export default function KaynakSecimiPage() {
     const { transactions } = usePortfolio();
 
-    // Get all unique assets from transactions
+    // Get all unique assets from transactions (excluding fiat currencies)
     const assets = useMemo(() => {
         const unique = new Set(transactions.map(t => (t.asset || 'GOLD').trim().toUpperCase()));
-        return Array.from(unique).sort();
+        return Array.from(unique)
+            .filter(asset => !['USD', 'TRY', 'EUR', 'GBP'].includes(asset))
+            .sort();
     }, [transactions]);
 
     return (
