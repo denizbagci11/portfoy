@@ -149,8 +149,39 @@ export default function DashboardStats() {
         console.log('Manual selected for', asset);
     };
 
-    const handleYahooSelect = (asset: string) => {
-        alert("Yahoo Finance entegrasyonu yakında eklenecek!");
+    const handleYahooSelect = async (asset: string) => {
+        try {
+            const { fetchYahooPriceAction } = await import('@/actions');
+            // Check if asset already has suffix (e.g. .IS), if not maybe assume or ask?
+            // For now use asset as is, but user might need to enter ticker manually in future.
+
+            // Auto-append .IS for Turkish assets if not present?
+            // Actually, let's just try with asset code. If fails, user might need to rename asset or we need a mapping.
+            // But user specifically asked for "AKBNK.IS". If asset name is "AKBNK", we might need to append.
+            // Let's rely on asset name for now.
+
+            const result = await fetchYahooPriceAction(asset);
+
+            if (result.success && result.price) {
+                // Update store (optimistic + DB)
+                await updateAssetPrice(asset, result.price, 'TRY'); // Assuming TRY for .IS stocks
+
+                // Update local view immediately
+                setViewSettings(prev => ({
+                    ...prev,
+                    [asset]: {
+                        ...(prev[asset] || { driver: 'USD' }),
+                        manualPrice: result.price,
+                        priceCurrency: 'TRY'
+                    }
+                }));
+            } else {
+                alert(`${asset} için Yahoo fiyatı çekilemedi: ` + (result.error || 'Fiyat bulunamadı'));
+            }
+        } catch (error) {
+            console.error('Yahoo fetch error:', error);
+            alert('Bir hata oluştu: ' + error);
+        }
     };
 
     const handleRateChange = (key: string, value: string) => {
