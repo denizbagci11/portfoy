@@ -276,3 +276,111 @@ export async function saveUserPreferenceAction(key: string, value: string) {
         return { success: false }
     }
 }
+
+// ============================================
+// Asset Data Source Actions
+// ============================================
+
+export async function getAssetDataSources() {
+    try {
+        const session = await auth()
+        if (!session?.user?.id) return {}
+
+        const sources = await (prisma as any).assetDataSource.findMany({
+            where: { userId: session.user.id }
+        })
+
+        return sources.reduce((acc: any, curr: any) => ({
+            ...acc,
+            [curr.asset]: {
+                source: curr.source,
+                ticker: curr.ticker
+            }
+        }), {})
+    } catch (err) {
+        console.error("Error fetching asset data sources:", err)
+        return {}
+    }
+}
+
+export async function updateAssetDataSource(asset: string, source: string, ticker: string) {
+    try {
+        const session = await auth()
+        if (!session?.user?.id) return { success: false }
+
+        await (prisma as any).assetDataSource.upsert({
+            where: {
+                asset_userId: {
+                    asset,
+                    userId: session.user.id
+                }
+            },
+            update: { source, ticker },
+            create: { asset, source, ticker, userId: session.user.id }
+        })
+
+        revalidatePath('/')
+        return { success: true }
+    } catch (err) {
+        console.error("Error updating asset data source:", err)
+        return { success: false }
+    }
+}
+
+export async function fetchAndUpdatePrices() {
+    try {
+        const session = await auth()
+        if (!session?.user?.id) return { success: false, updated: 0 }
+
+        // Get all data sources for this user
+        const sources = await (prisma as any).assetDataSource.findMany({
+            where: {
+                userId: session.user.id,
+                source: { in: ['YAHOO', 'TEFAS'] }
+            }
+        })
+
+        let updated = 0
+
+        for (const sourceConfig of sources) {
+            if (!sourceConfig.ticker) continue
+
+            try {
+                const { fetchPriceFromSource } = await import('./lib/priceApis')
+                const result = await fetchPriceFromSource(sourceConfig.source, sourceConfig.ticker)
+
+                if (result) {
+                    // Update the asset price in AssetSettings
+                    await (prisma as any).assetSettings.upsert({
+                        where: {
+                            asset_userId: {
+                                asset: sourceConfig.asset,
+                                userId: session.user.id
+                            }
+                        },
+                        update: {
+                            manualPrice: result.price,
+                            priceCurrency: result.currency
+                        },
+                        create: {
+                            asset: sourceConfig.asset,
+                            driver: 'USD',
+                            manualPrice: result.price,
+                            priceCurrency: result.currency,
+                            userId: session.user.id
+                        }
+                    })
+                    updated++
+                }
+            } catch (error) {
+                console.error(`Error fetching price for ${sourceConfig.asset}:`, error)
+            }
+        }
+
+        revalidatePath('/')
+        return { success: true, updated }
+    } catch (err) {
+        console.error("Error in fetchAndUpdatePrices:", err)
+        return { success: false, updated: 0 }
+    }
+}

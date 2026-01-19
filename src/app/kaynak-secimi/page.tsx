@@ -1,8 +1,10 @@
 "use client";
 
 import { usePortfolio } from '@/lib/store';
-import { useMemo, useState } from 'react';
-import { Settings, Save, TestTube } from 'lucide-react';
+import { useMemo, useState, useEffect } from 'react';
+import { Settings, Save, TestTube, CheckCircle } from 'lucide-react';
+import { getAssetDataSources, updateAssetDataSource } from '@/actions';
+import { fetchPriceFromSource } from '@/lib/priceApis';
 
 interface AssetSourceConfig {
     source: 'MANUAL' | 'TEFAS' | 'YAHOO';
@@ -21,15 +23,38 @@ export default function KaynakSecimiPage() {
     }, [transactions]);
 
     // State for each asset's configuration
-    const [configs, setConfigs] = useState<Record<string, AssetSourceConfig>>(() => {
-        const initial: Record<string, AssetSourceConfig> = {};
-        assets.forEach(asset => {
-            initial[asset] = { source: 'MANUAL', ticker: '' };
-        });
-        return initial;
-    });
-
+    const [configs, setConfigs] = useState<Record<string, AssetSourceConfig>>({});
+    const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
+    const [testResults, setTestResults] = useState<Record<string, { success: boolean; price?: number; currency?: string }>>({});
+
+    // Load existing configurations
+    useEffect(() => {
+        const loadConfigs = async () => {
+            const savedConfigs = await getAssetDataSources();
+            const initial: Record<string, AssetSourceConfig> = {};
+
+            assets.forEach(asset => {
+                if (savedConfigs[asset]) {
+                    initial[asset] = {
+                        source: savedConfigs[asset].source,
+                        ticker: savedConfigs[asset].ticker || ''
+                    };
+                } else {
+                    initial[asset] = { source: 'MANUAL', ticker: '' };
+                }
+            });
+
+            setConfigs(initial);
+            setLoading(false);
+        };
+
+        if (assets.length > 0) {
+            loadConfigs();
+        } else {
+            setLoading(false);
+        }
+    }, [assets]);
 
     const handleSourceChange = (asset: string, source: 'MANUAL' | 'TEFAS' | 'YAHOO') => {
         setConfigs(prev => ({
@@ -51,17 +76,59 @@ export default function KaynakSecimiPage() {
             alert('Lütfen ticker/kod giriniz');
             return;
         }
-        alert(`Test özelliği yakında eklenecek!\nVarlık: ${asset}\nKaynak: ${config.source}\nTicker: ${config.ticker}`);
+
+        if (config.source === 'MANUAL') {
+            return;
+        }
+
+        setTestResults(prev => ({ ...prev, [asset]: { success: false } }));
+
+        try {
+            const result = await fetchPriceFromSource(config.source, config.ticker);
+            if (result) {
+                setTestResults(prev => ({
+                    ...prev,
+                    [asset]: {
+                        success: true,
+                        price: result.price,
+                        currency: result.currency
+                    }
+                }));
+            } else {
+                setTestResults(prev => ({ ...prev, [asset]: { success: false } }));
+                alert(`Fiyat çekilemedi. Ticker/kod doğru mu kontrol edin: ${config.ticker}`);
+            }
+        } catch (error) {
+            setTestResults(prev => ({ ...prev, [asset]: { success: false } }));
+            alert('Bir hata oluştu. Lütfen tekrar deneyin.');
+        }
     };
 
     const handleSave = async () => {
         setSaving(true);
-        // TODO: Implement save to database
-        setTimeout(() => {
+        try {
+            const promises = Object.entries(configs).map(([asset, config]) =>
+                updateAssetDataSource(asset, config.source, config.ticker || '')
+            );
+
+            await Promise.all(promises);
+            alert('Ayarlar başarıyla kaydedildi!');
+        } catch (error) {
+            alert('Kaydetme sırasında bir hata oluştu.');
+        } finally {
             setSaving(false);
-            alert('Ayarlar kaydedildi! (Veritabanı entegrasyonu yakında eklenecek)');
-        }, 500);
+        }
     };
+
+    if (loading) {
+        return (
+            <div className="container py-5 text-center">
+                <div className="spinner-border text-primary" role="status">
+                    <span className="visually-hidden">Yükleniyor...</span>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="container py-4">
@@ -102,8 +169,8 @@ export default function KaynakSecimiPage() {
                                             <tr>
                                                 <th className="fw-bold" style={{ width: '20%' }}>Varlık</th>
                                                 <th className="fw-bold" style={{ width: '30%' }}>Kaynak</th>
-                                                <th className="fw-bold" style={{ width: '30%' }}>Ticker/Kod</th>
-                                                <th className="fw-bold text-end" style={{ width: '20%' }}>İşlem</th>
+                                                <th className="fw-bold" style={{ width: '25%' }}>Ticker/Kod</th>
+                                                <th className="fw-bold text-end" style={{ width: '25%' }}>İşlem</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -168,14 +235,22 @@ export default function KaynakSecimiPage() {
                                                         />
                                                     </td>
                                                     <td className="text-end">
-                                                        <button
-                                                            className="btn btn-sm btn-outline-primary d-flex align-items-center gap-1 ms-auto"
-                                                            onClick={() => handleTest(asset)}
-                                                            disabled={configs[asset]?.source === 'MANUAL'}
-                                                        >
-                                                            <TestTube size={14} />
-                                                            Test
-                                                        </button>
+                                                        <div className="d-flex align-items-center justify-content-end gap-2">
+                                                            {testResults[asset]?.success && (
+                                                                <span className="badge bg-success d-flex align-items-center gap-1">
+                                                                    <CheckCircle size={12} />
+                                                                    {testResults[asset].price?.toFixed(2)} {testResults[asset].currency}
+                                                                </span>
+                                                            )}
+                                                            <button
+                                                                className="btn btn-sm btn-outline-primary d-flex align-items-center gap-1"
+                                                                onClick={() => handleTest(asset)}
+                                                                disabled={configs[asset]?.source === 'MANUAL'}
+                                                            >
+                                                                <TestTube size={14} />
+                                                                Test
+                                                            </button>
+                                                        </div>
                                                     </td>
                                                 </tr>
                                             ))}
@@ -189,8 +264,8 @@ export default function KaynakSecimiPage() {
                                     <h6 className="fw-bold mb-2">Bilgi:</h6>
                                     <ul className="small text-muted mb-0">
                                         <li><strong>Manuel:</strong> Fiyatları Dashboard'dan elle girersiniz</li>
-                                        <li><strong>TEFAS:</strong> Türkiye fon fiyatları (Örn: AAK, AFK)</li>
-                                        <li><strong>Yahoo Finance:</strong> Hisse senetleri ve emtialar (Örn: AAPL, GC=F)</li>
+                                        <li><strong>TEFAS:</strong> Her sabah 9:00'da otomatik güncellenir (Türkiye fon fiyatları)</li>
+                                        <li><strong>Yahoo Finance:</strong> Her sayfa yüklendiğinde güncellenir (Hisse senetleri ve emtialar)</li>
                                     </ul>
                                 </div>
                             )}

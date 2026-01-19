@@ -46,6 +46,19 @@ model UserPreference {
   @@unique([key, userId])
 }
 
+model AssetDataSource {
+  id          String   @id @default(cuid())
+  asset       String   // Asset name (e.g., "GOLD", "AAK")
+  source      String   // "MANUAL" | "TEFAS" | "YAHOO"
+  ticker      String?  // Ticker/code for the API (e.g., "GC=F" for gold, "AAK" for TEFAS fund)
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([asset, userId])
+}
+
 model User {
   id              String   @id @default(cuid())
   username        String   @unique
@@ -55,6 +68,7 @@ model User {
   transactions    Transaction[]
   assetSettings   AssetSettings[]
   userPreferences UserPreference[]
+  assetDataSources AssetDataSource[]
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 }
