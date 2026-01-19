@@ -105,17 +105,34 @@ export default function KaynakSecimiPage() {
         }
     };
 
+
     const handleSave = async () => {
         setSaving(true);
         try {
-            const promises = Object.entries(configs).map(([asset, config]) =>
-                updateAssetDataSource(asset, config.source, config.ticker || '')
+            console.log('Starting save operation...');
+            console.log('Configs to save:', configs);
+
+            const results = await Promise.all(
+                Object.entries(configs).map(async ([asset, config]) => {
+                    console.log(`Saving ${asset}: source=${config.source}, ticker=${config.ticker}`);
+                    const result = await updateAssetDataSource(asset, config.source, config.ticker || '');
+                    console.log(`Result for ${asset}:`, result);
+                    return result;
+                })
             );
 
-            await Promise.all(promises);
-            alert('Ayarlar başarıyla kaydedildi!');
+            const failedSaves = results.filter(r => !r.success);
+
+            if (failedSaves.length > 0) {
+                console.error('Some saves failed:', failedSaves);
+                alert(`Kaydetme sırasında ${failedSaves.length} hata oluştu. Console'u kontrol edin.`);
+            } else {
+                console.log('All saves successful!');
+                alert('Ayarlar başarıyla kaydedildi!');
+            }
         } catch (error) {
-            alert('Kaydetme sırasında bir hata oluştu.');
+            console.error('Save error:', error);
+            alert('Kaydetme sırasında bir hata oluştu: ' + error);
         } finally {
             setSaving(false);
         }
