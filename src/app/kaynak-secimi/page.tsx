@@ -2,8 +2,8 @@
 
 import { usePortfolio } from '@/lib/store';
 import { useMemo, useState, useEffect } from 'react';
-import { Settings, Save, TestTube, CheckCircle } from 'lucide-react';
-import { getAssetDataSources, updateAssetDataSource } from '@/actions';
+import { Settings, Save, TestTube, CheckCircle, RefreshCw } from 'lucide-react';
+import { getAssetDataSources, updateAssetDataSource, fetchAndUpdatePrices } from '@/actions';
 import { fetchPriceFromSource } from '@/lib/priceApis';
 
 interface AssetSourceConfig {
@@ -26,6 +26,7 @@ export default function KaynakSecimiPage() {
     const [configs, setConfigs] = useState<Record<string, AssetSourceConfig>>({});
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
+    const [updating, setUpdating] = useState(false);
     const [testResults, setTestResults] = useState<Record<string, { success: boolean; price?: number; currency?: string }>>({});
 
     // Load existing configurations
@@ -120,6 +121,19 @@ export default function KaynakSecimiPage() {
         }
     };
 
+    const handleUpdatePrices = async () => {
+        setUpdating(true);
+        try {
+            const result = await fetchAndUpdatePrices();
+            alert(`${result.updated} varlık fiyatı güncellendi!`);
+            window.location.reload(); // Reload to show updated prices
+        } catch (error) {
+            alert('Güncelleme sırasında bir hata oluştu.');
+        } finally {
+            setUpdating(false);
+        }
+    };
+
     if (loading) {
         return (
             <div className="container py-5 text-center">
@@ -146,14 +160,24 @@ export default function KaynakSecimiPage() {
                                         </p>
                                     </div>
                                 </div>
-                                <button
-                                    className="btn btn-primary d-flex align-items-center gap-2"
-                                    onClick={handleSave}
-                                    disabled={saving}
-                                >
-                                    <Save size={18} />
-                                    {saving ? 'Kaydediliyor...' : 'Kaydet'}
-                                </button>
+                                <div className="d-flex gap-2">
+                                    <button
+                                        className="btn btn-success d-flex align-items-center gap-2"
+                                        onClick={handleUpdatePrices}
+                                        disabled={updating}
+                                    >
+                                        <RefreshCw size={18} />
+                                        {updating ? 'Güncelleniyor...' : 'Güncelle'}
+                                    </button>
+                                    <button
+                                        className="btn btn-primary d-flex align-items-center gap-2"
+                                        onClick={handleSave}
+                                        disabled={saving}
+                                    >
+                                        <Save size={18} />
+                                        {saving ? 'Kaydediliyor...' : 'Kaydet'}
+                                    </button>
+                                </div>
                             </div>
                         </div>
                         <div className="card-body p-4">
@@ -228,7 +252,7 @@ export default function KaynakSecimiPage() {
                                                         <input
                                                             type="text"
                                                             className="form-control form-control-sm"
-                                                            placeholder={configs[asset]?.source === 'TEFAS' ? 'Örn: AAK' : configs[asset]?.source === 'YAHOO' ? 'Örn: GC=F' : '-'}
+                                                            placeholder={configs[asset]?.source === 'TEFAS' ? 'Örn: AK2' : configs[asset]?.source === 'YAHOO' ? 'Örn: GC=F' : '-'}
                                                             value={configs[asset]?.ticker || ''}
                                                             onChange={(e) => handleTickerChange(asset, e.target.value)}
                                                             disabled={configs[asset]?.source === 'MANUAL'}
@@ -264,8 +288,8 @@ export default function KaynakSecimiPage() {
                                     <h6 className="fw-bold mb-2">Bilgi:</h6>
                                     <ul className="small text-muted mb-0">
                                         <li><strong>Manuel:</strong> Fiyatları Dashboard'dan elle girersiniz</li>
-                                        <li><strong>TEFAS:</strong> Her sabah 9:00'da otomatik güncellenir (Türkiye fon fiyatları)</li>
-                                        <li><strong>Yahoo Finance:</strong> Her sayfa yüklendiğinde güncellenir (Hisse senetleri ve emtialar)</li>
+                                        <li><strong>TEFAS:</strong> "Güncelle" butonuna basarak manuel olarak güncellersiniz</li>
+                                        <li><strong>Yahoo Finance:</strong> Her sayfa yüklendiğinde otomatik güncellenir</li>
                                     </ul>
                                 </div>
                             )}
