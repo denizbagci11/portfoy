@@ -144,13 +144,25 @@ export async function removeTransactionAction(id: string) {
     }
 }
 
-export async function getAssetSettings() {
+export async function getAssetSettings(targetUserId?: string) {
     try {
         const session = await auth()
         if (!session?.user?.id) return {}
 
+        // Determine effective User ID
+        let queryUserId = session.user.id;
+        const isAdmin = (session.user as any).role === 'admin';
+
+        if (targetUserId && targetUserId !== 'all') {
+            if (isAdmin || targetUserId === session.user.id) {
+                queryUserId = targetUserId;
+            } else {
+                return {} // Unauthorized access attempt
+            }
+        }
+
         const settings = await prisma.assetSettings.findMany({
-            where: { userId: session.user.id } as any
+            where: { userId: queryUserId } as any
         })
 
         // Return full settings keyed by asset
@@ -172,6 +184,7 @@ export async function updateAssetDriverAction(asset: string, driver: string) {
         const session = await auth()
         if (!session?.user?.id) return { success: false }
 
+        // Always update for the logged-in user (Admin doesn't edit other's settings yet, or arguably shouldn't via this UI)
         await (prisma.assetSettings as any).upsert({
             where: {
                 asset_userId: {
@@ -213,13 +226,24 @@ export async function updateAssetPriceAction(asset: string, price: number, curre
     }
 }
 
-export async function getUserPreferencesAction() {
+export async function getUserPreferencesAction(targetUserId?: string) {
     try {
         const session = await auth()
         if (!session?.user?.id) return {}
 
+        let queryUserId = session.user.id;
+        const isAdmin = (session.user as any).role === 'admin';
+
+        if (targetUserId && targetUserId !== 'all') {
+            if (isAdmin || targetUserId === session.user.id) {
+                queryUserId = targetUserId;
+            } else {
+                return {}
+            }
+        }
+
         const prefs = await (prisma as any).userPreference.findMany({
-            where: { userId: session.user.id }
+            where: { userId: queryUserId }
         })
 
         return prefs.reduce((acc: any, curr: any) => ({

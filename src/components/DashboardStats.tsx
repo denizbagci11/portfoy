@@ -7,6 +7,7 @@ import { ArrowUpRight, ArrowDownRight, TrendingUp, DollarSign, Filter, User as U
 import PortfolioChart from './PortfolioChart';
 import { useSession } from 'next-auth/react';
 import { getUsers } from '@/userActions';
+import { getAssetSettings, getUserPreferencesAction } from '@/actions';
 
 export default function DashboardStats() {
     const {
@@ -24,11 +25,41 @@ export default function DashboardStats() {
     const [selectedUserId, setSelectedUserId] = useState<string>('all');
     const isAdmin = (session?.user as any)?.role === 'admin';
 
+    // Local view state (defaults to store values, but updates when Admin selects a user)
+    const [viewSettings, setViewSettings] = useState(assetSettings);
+    const [viewPreferences, setViewPreferences] = useState(userPreferences);
+
     useEffect(() => {
         if (isAdmin) {
             getUsers().then(setUsersList);
         }
     }, [isAdmin]);
+
+    // Fetch target user settings when Admin changes selection
+    useEffect(() => {
+        const fetchViewSettings = async () => {
+            if (!isAdmin) return;
+
+            if (selectedUserId === 'all') {
+                // Reset to my own settings
+                setViewSettings(assetSettings);
+                setViewPreferences(userPreferences);
+            } else {
+                // Fetch target user's settings
+                try {
+                    const [targetSettings, targetPrefs] = await Promise.all([
+                        getAssetSettings(selectedUserId),
+                        getUserPreferencesAction(selectedUserId)
+                    ]);
+                    setViewSettings(targetSettings);
+                    setViewPreferences(targetPrefs);
+                } catch (e) {
+                    console.error("Failed to fetch target user settings", e);
+                }
+            }
+        };
+        fetchViewSettings();
+    }, [selectedUserId, isAdmin, assetSettings, userPreferences]);
 
     // Global Rates
     const [usdTryRate, setUsdTryRate] = useState(33.50);
@@ -38,10 +69,10 @@ export default function DashboardStats() {
 
     // Load initial rates from preferences
     useEffect(() => {
-        if (userPreferences.usdTryRate) setUsdTryRate(parseFloat(userPreferences.usdTryRate));
-        if (userPreferences.eurUsdRate) setEurUsdRate(parseFloat(userPreferences.eurUsdRate));
-        if (userPreferences.gbpUsdRate) setGbpUsdRate(parseFloat(userPreferences.gbpUsdRate));
-    }, [userPreferences]);
+        if (viewPreferences.usdTryRate) setUsdTryRate(parseFloat(viewPreferences.usdTryRate));
+        if (viewPreferences.eurUsdRate) setEurUsdRate(parseFloat(viewPreferences.eurUsdRate));
+        if (viewPreferences.gbpUsdRate) setGbpUsdRate(parseFloat(viewPreferences.gbpUsdRate));
+    }, [viewPreferences]);
 
     useEffect(() => {
         const fetchRates = async () => {
@@ -110,7 +141,7 @@ export default function DashboardStats() {
             const assetTransactions = filteredTransactions.filter(t => (t.asset || 'GOLD').trim().toUpperCase() === normalizedAsset);
 
             // Get settings for this asset (driver, manualPrice)
-            const settings = assetSettings[normalizedAsset] || { driver: 'USD' };
+            const settings = viewSettings[normalizedAsset] || { driver: 'USD' };
             const priceInfo = {
                 price: settings.manualPrice || 0,
                 currency: settings.priceCurrency || 'USD'
@@ -146,7 +177,7 @@ export default function DashboardStats() {
                 formattedGrowthTRY: (stats.profitRatioTRY * 100).toFixed(1),
             };
         });
-    }, [filteredTransactions, assets, assetSettings, usdTryRate, eurUsdRate, gbpUsdRate]);
+    }, [filteredTransactions, assets, viewSettings, usdTryRate, eurUsdRate, gbpUsdRate]);
 
     const totalPortfolioValueUSD = assetStats.reduce((sum, item) => sum + (item.totalValueUSD || 0), 0);
     const totalPortfolioCostUSD = assetStats.reduce((sum, item) => sum + (item.totalCostUSD || 0), 0);
@@ -189,11 +220,11 @@ export default function DashboardStats() {
     const periodProfitTRY = totalPortfolioValueTRY - oneYearAgoStats.valueTRY;
     const periodGrowthTRY = oneYearAgoStats.valueTRY > 0 ? (periodProfitTRY / oneYearAgoStats.valueTRY) * 100 : 0;
 
-    // Use currentPrices logic for chart (derived from assetSettings)
+    // Use currentPrices logic for chart (derived from viewSettings)
     const currentPrices = useMemo(() => {
         const prices: any = {};
         assets.forEach(asset => {
-            const settings = assetSettings[asset];
+            const settings = viewSettings[asset];
             if (settings?.manualPrice) {
                 prices[asset] = {
                     price: settings.manualPrice,
@@ -202,7 +233,17 @@ export default function DashboardStats() {
             }
         });
         return prices;
-    }, [assets, assetSettings]);
+    }, [assets, viewSettings]);
+
+    const handleUpdateDriver = (asset: string, driver: 'USD' | 'TRY') => {
+        if (isAdmin && selectedUserId !== 'all') return;
+        updateDriver(asset, driver);
+    };
+
+    const handleUpdateAssetPrice = (asset: string, price: number, currency: string) => {
+        if (isAdmin && selectedUserId !== 'all') return;
+        updateAssetPrice(asset, price, currency);
+    };
 
     return (
         <div>
@@ -322,11 +363,11 @@ export default function DashboardStats() {
                                     <div className="d-flex flex-column">
                                         <h6 className="mb-0 fw-bold">{stat.asset}</h6>
                                         <span
-                                            className={`badge mt-1 ${assetSettings[stat.asset]?.driver === 'USD' ? 'bg-info text-dark' : 'bg-warning text-dark'}`}
+                                            className={`badge mt-1 ${viewSettings[stat.asset]?.driver === 'USD' ? 'bg-info text-dark' : 'bg-warning text-dark'}`}
                                             style={{ fontSize: '0.6rem', cursor: 'pointer', width: 'fit-content' }}
-                                            onClick={() => updateDriver(stat.asset, assetSettings[stat.asset]?.driver === 'USD' ? 'TRY' : 'USD')}
+                                            onClick={() => handleUpdateDriver(stat.asset, viewSettings[stat.asset]?.driver === 'USD' ? 'TRY' : 'USD')}
                                         >
-                                            {assetSettings[stat.asset]?.driver === 'USD' ? 'USD Bazlı' : 'TL Bazlı'}
+                                            {viewSettings[stat.asset]?.driver === 'USD' ? 'USD Bazlı' : 'TL Bazlı'}
                                         </span>
                                     </div>
                                 </div>
@@ -378,16 +419,16 @@ export default function DashboardStats() {
                                                     <input type="number"
                                                         className="form-control form-control-sm"
                                                         placeholder="USD Price"
-                                                        onChange={(e) => updateAssetPrice(stat.asset, parseFloat(e.target.value), 'USD')}
-                                                        value={assetSettings[stat.asset]?.priceCurrency === 'USD' ? (assetSettings[stat.asset]?.manualPrice || '') : ''}
+                                                        onChange={(e) => handleUpdateAssetPrice(stat.asset, parseFloat(e.target.value), 'USD')}
+                                                        value={viewSettings[stat.asset]?.priceCurrency === 'USD' ? (viewSettings[stat.asset]?.manualPrice || '') : ''}
                                                     />
                                                 </div>
                                                 <div className="col-6">
                                                     <input type="number"
                                                         className="form-control form-control-sm"
                                                         placeholder="TRY Price"
-                                                        onChange={(e) => updateAssetPrice(stat.asset, parseFloat(e.target.value), 'TRY')}
-                                                        value={assetSettings[stat.asset]?.priceCurrency === 'TRY' ? (assetSettings[stat.asset]?.manualPrice || '') : ''}
+                                                        onChange={(e) => handleUpdateAssetPrice(stat.asset, parseFloat(e.target.value), 'TRY')}
+                                                        value={viewSettings[stat.asset]?.priceCurrency === 'TRY' ? (viewSettings[stat.asset]?.manualPrice || '') : ''}
                                                     />
                                                 </div>
                                             </div>
