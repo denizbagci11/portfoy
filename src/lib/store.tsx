@@ -69,6 +69,15 @@ function DataLoader({
                     setTransactions(dbTransactions);
                     setAssetSettings(dbSettings);
                     setUserPreferences(dbPrefs);
+
+                    // Auto-fetch Yahoo Finance prices (runs in background)
+                    const { fetchAndUpdatePrices } = await import('@/actions');
+                    fetchAndUpdatePrices().then(result => {
+                        if (result.updated > 0) {
+                            // Reload settings to get updated prices
+                            getAssetSettings().then(setAssetSettings);
+                        }
+                    });
                 } catch (err) {
                     console.error("Failed to load data from DB:", err);
                 } finally {
