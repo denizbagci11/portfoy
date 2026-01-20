@@ -1,3 +1,7 @@
+import YahooFinance from 'yahoo-finance2';
+
+const yahooFinance = new YahooFinance({ suppressNotices: ['yahooSurvey'] });
+
 /**
  * Price API Integration Utilities
  * Fetches asset prices from Yahoo Finance and TEFAS
@@ -10,39 +14,28 @@
  */
 export async function fetchYahooFinancePrice(ticker: string): Promise<number | null> {
     try {
-        // Using Yahoo Finance v8 API (unofficial but widely used)
-        const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(ticker)}`;
+        // Suppress console warnings from the library if necessary
+        // yahooFinance.suppressNotices(['yahooSurvey']);
 
-        const response = await fetch(url, {
-            headers: {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-                'Accept': 'application/json',
-                'Accept-Language': 'en-US,en;q=0.9'
-            }
-        });
+        const result = await yahooFinance.quote(ticker);
 
-        if (!response.ok) {
-            console.error(`Yahoo Finance API error: ${response.status} for ticker ${ticker}`);
-            const text = await response.text();
-            console.error('Response:', text.substring(0, 200));
+        if (!result) {
+            console.error(`Yahoo Finance: No result for ${ticker}`);
             return null;
         }
 
-        const data = await response.json();
-
-        // Extract current price from response
-        const price = data?.chart?.result?.[0]?.meta?.regularMarketPrice;
+        // regularMarketPrice is the standard field for current price
+        const price = result.regularMarketPrice;
 
         if (typeof price === 'number' && !isNaN(price)) {
-            console.log(`Successfully fetched ${ticker}: ${price}`);
+            console.log(`Successfully fetched ${ticker} via yahoo-finance2: ${price}`);
             return price;
         }
 
-        console.error('Invalid price data from Yahoo Finance for ticker:', ticker);
-        console.error('Response structure:', JSON.stringify(data).substring(0, 300));
+        console.error('Yahoo Finance: Price is missing or invalid for:', ticker);
         return null;
-    } catch (error) {
-        console.error('Error fetching Yahoo Finance price for ticker:', ticker, error);
+    } catch (error: any) {
+        console.error('Error fetching Yahoo Finance price for ticker:', ticker, error.message || error);
         return null;
     }
 }
@@ -57,9 +50,22 @@ export async function fetchTefasPrice(fundCode: string): Promise<number | null> 
         // TEFAS fund analysis page URL
         const url = `https://www.tefas.gov.tr/FonAnaliz.aspx?FonKod=${fundCode.toUpperCase()}`;
 
+        // Enhanced headers to look more like a real browser
         const response = await fetch(url, {
             headers: {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+                'Accept-Language': 'tr-TR,tr;q=0.9,en-US;q=0.8,en;q=0.7',
+                'Cache-Control': 'no-cache',
+                'Pragma': 'no-cache',
+                'Sec-Ch-Ua': '"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"',
+                'Sec-Ch-Ua-Mobile': '?0',
+                'Sec-Ch-Ua-Platform': '"Windows"',
+                'Sec-Fetch-Dest': 'document',
+                'Sec-Fetch-Mode': 'navigate',
+                'Sec-Fetch-Site': 'none',
+                'Sec-Fetch-User': '?1',
+                'Upgrade-Insecure-Requests': '1'
             }
         });
 

@@ -23,7 +23,8 @@
     "react-bootstrap": "^2.10.10",
     "react-dom": "19.2.3",
     "recharts": "^3.6.0",
-    "xirr": "^1.1.0"
+    "xirr": "^1.1.0",
+    "yahoo-finance2": "^3.11.2"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
