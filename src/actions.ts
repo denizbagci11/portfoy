@@ -384,6 +384,8 @@ export async function fetchAndUpdatePrices() {
         const session = await auth()
         if (!session?.user?.id) return { success: false, updated: 0 }
 
+        console.log('[fetchAndUpdatePrices] Starting background price update...');
+
         // Get all data sources for this user
         const sources = await (prisma as any).assetDataSource.findMany({
             where: {
@@ -391,6 +393,11 @@ export async function fetchAndUpdatePrices() {
                 source: { in: ['YAHOO', 'TEFAS'] }
             }
         })
+
+        if (!sources.length) {
+            console.log('[fetchAndUpdatePrices] No data sources found.');
+            return { success: true, updated: 0 }
+        }
 
         let updated = 0
 
@@ -401,7 +408,11 @@ export async function fetchAndUpdatePrices() {
                 const { fetchPriceFromSource } = await import('./lib/priceApis')
                 const result = await fetchPriceFromSource(sourceConfig.source, sourceConfig.ticker)
 
-                if (result) {
+                // CRITICAL FIX: Only update if we have a valid positive price.
+                // Prevent over-writing valid data with 0 or null if something goes wrong silently.
+                if (result && result.price > 0) {
+                    console.log(`[fetchAndUpdatePrices] Updating ${sourceConfig.asset}: ${result.price} ${result.currency}`);
+
                     // Update the asset price in AssetSettings
                     await (prisma as any).assetSettings.upsert({
                         where: {
@@ -412,23 +423,27 @@ export async function fetchAndUpdatePrices() {
                         },
                         update: {
                             manualPrice: result.price,
-                            priceCurrency: result.currency
+                            priceCurrency: result.currency,
+                            driver: result.currency === 'USD' ? 'USD' : 'TRY' // Auto-set driver too
                         },
                         create: {
                             asset: sourceConfig.asset,
-                            driver: 'USD',
+                            driver: result.currency === 'USD' ? 'USD' : 'TRY',
                             manualPrice: result.price,
                             priceCurrency: result.currency,
                             userId: session.user.id
                         }
                     })
                     updated++
+                } else {
+                    console.warn(`[fetchAndUpdatePrices] Skipped update for ${sourceConfig.asset}: Invalid price result`, result);
                 }
             } catch (error) {
                 console.error(`Error fetching price for ${sourceConfig.asset}:`, error)
             }
         }
 
+        console.log(`[fetchAndUpdatePrices] Completed. Updated ${updated} assets.`);
         revalidatePath('/')
         return { success: true, updated }
     } catch (err) {

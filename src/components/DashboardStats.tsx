@@ -118,12 +118,15 @@ export default function DashboardStats() {
     // Fetch TEFAS price dynamically
     const handleFetchTefasPrice = async (asset: string) => {
         try {
-            const { fetchTefasPriceAction } = await import('@/actions');
+            const { fetchTefasPriceAction, updateAssetDataSource } = await import('@/actions');
             const result = await fetchTefasPriceAction(asset);
 
             if (result.success && result.price) {
-                // Update store (optimistic + DB)
+                // 1. Update store (optimistic + DB)
                 await updateAssetPrice(asset, result.price, 'TRY');
+
+                // 2. Persist Data Source so it auto-updates in future
+                await updateAssetDataSource(asset, 'TEFAS', asset); // TEFAS ticker is usually the asset name itself
 
                 // Update local view immediately
                 setViewSettings(prev => ({
@@ -151,16 +154,23 @@ export default function DashboardStats() {
 
     const handleYahooSelect = async (asset: string) => {
         try {
-            const { fetchYahooPriceAction } = await import('@/actions');
+            const { fetchYahooPriceAction, updateAssetDataSource } = await import('@/actions');
 
             const result = await fetchYahooPriceAction(asset);
 
             if (result.success && result.price) {
                 // GC=F and PL=F are USD, others (like .IS stocks) are TRY
                 const currency = (asset === 'GC=F' || asset === 'PL=F') ? 'USD' : 'TRY';
+                // For stocks like AKBNK, we likely want AKBNK.IS. The asset name in DB might be just "AKBNK".
+                // If asset name doesn't have .IS but we successfully fetched, we should save the ticker used.
+                // NOTE: fetchYahooPriceAction takes 'ticker'. Here we pass 'asset'. 
+                // Assumption: Asset name IS the ticker (e.g. user entered "AKBNK.IS").
 
-                // Update store (optimistic + DB)
+                // 1. Update store (optimistic + DB)
                 await updateAssetPrice(asset, result.price, currency);
+
+                // 2. Persist Data Source
+                await updateAssetDataSource(asset, 'YAHOO', asset);
 
                 // Update local view immediately
                 setViewSettings(prev => ({
