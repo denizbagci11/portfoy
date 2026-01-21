@@ -30,6 +30,7 @@ model AssetSettings {
   driver        String // 'USD' | 'TRY'
   manualPrice   Float? // Persistent manual price
   priceCurrency String? // 'USD' | 'TRY'
+  lastFetchedAt DateTime? // Last time price was fetched from external source
   userId        String
   user          User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -69,7 +70,19 @@ model User {
   assetSettings   AssetSettings[]
   userPreferences UserPreference[]
   assetDataSources AssetDataSource[]
+  monthlyHistories MonthlyHistory[]
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 }
 
+
+model MonthlyHistory {
+  id            String   @id @default(cuid())
+  date          DateTime // Should be set to the last day of the month
+  totalValueTRY Float
+  totalValueUSD Float
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([date, userId])
+}
