@@ -35,7 +35,7 @@ export default function AnalizPage() {
                     const now = new Date();
                     const targetDate = new Date(now.getTime() - (365 * 24 * 60 * 60 * 1000));
 
-                    let closestRecord = null;
+                    let closestRecord: any = null;
                     let minDiff = Infinity;
 
                     history.forEach(h => {
