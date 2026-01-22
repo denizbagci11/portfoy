@@ -198,19 +198,6 @@ export default function PortfolioChart({
     // Use database snapshot if it exists for month-end, otherwise use live calculation
     const displayHistory = (() => {
         const filtered = filteredHistory();
-
-        // DEDUPLICATION STEP: Ensure only one record per month
-        const uniqueMap = new Map();
-        filtered.forEach(h => {
-            const d = new Date(h.date);
-            const key = `${d.getFullYear()}-${d.getMonth()}`; // Year-Month key
-            // If duplicate, keep the one that is later in the month (likely the month-end snapshot)
-            if (!uniqueMap.has(key) || new Date(uniqueMap.get(key).date).getTime() < d.getTime()) {
-                uniqueMap.set(key, h);
-            }
-        });
-        const prevHistory = Array.from(uniqueMap.values()).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-
         const currentValue = calculateCurrentValue();
         const now = new Date();
 
@@ -218,7 +205,7 @@ export default function PortfolioChart({
         console.log('[PortfolioChart] Current year:', now.getFullYear(), 'Current month:', now.getMonth());
 
         // Check if there's an end-of-month snapshot for the current month
-        const currentMonthEndSnapshot = prevHistory.find(h => {
+        const currentMonthEndSnapshot = filtered.find(h => {
             const hDate = new Date(h.date);
             const isCurrentMonth = hDate.getFullYear() === now.getFullYear() &&
                 hDate.getMonth() === now.getMonth();
@@ -230,10 +217,10 @@ export default function PortfolioChart({
         if (currentMonthEndSnapshot) {
             // Use the existing month-end snapshot
             console.log('[PortfolioChart] Using existing month-end snapshot:', currentMonthEndSnapshot.date);
-            return prevHistory;
+            return filtered;
         } else {
             // No month-end snapshot exists, remove any mid-month records and add live calculation
-            const withoutCurrentMonth = prevHistory.filter(h => {
+            const withoutCurrentMonth = filtered.filter(h => {
                 const hDate = new Date(h.date);
                 const isCurrentMonth = hDate.getFullYear() === now.getFullYear() &&
                     hDate.getMonth() === now.getMonth();
@@ -251,7 +238,7 @@ export default function PortfolioChart({
                 date: currentMonthDate.toISOString().split('T')[0],
                 totalValueUSD: currentValue.usd,
                 totalValueTRY: currentValue.try,
-                userId: prevHistory[0]?.userId || '',
+                userId: filtered[0]?.userId || '',
                 id: 'current-month-live'
             }];
 

@@ -1,0 +1,88 @@
+generator client {
+  provider = "prisma-client-js"
+  engineType = "library"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Transaction {
+  id        String   @id @default(cuid())
+  type      String   // 'BUY' | 'SELL'
+  asset     String
+  date      DateTime
+  amount    Float
+  priceTRY  Float
+  usdRate   Float
+  
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model AssetSettings {
+  id            String @id @default(cuid())
+  asset         String
+  driver        String // 'USD' | 'TRY'
+  manualPrice   Float? // Persistent manual price
+  priceCurrency String? // 'USD' | 'TRY'
+  lastFetchedAt DateTime? // Last time price was fetched from external source
+  userId        String
+  user          User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([asset, userId])
+}
+
+model UserPreference {
+  id      String @id @default(cuid())
+  key     String // e.g., 'usdTryRate', 'eurUsdRate'
+  value   String
+  userId  String
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([key, userId])
+}
+
+model AssetDataSource {
+  id          String   @id @default(cuid())
+  asset       String   // Asset name (e.g., "GOLD", "AAK")
+  source      String   // "MANUAL" | "TEFAS" | "YAHOO"
+  ticker      String?  // Ticker/code for the API (e.g., "GC=F" for gold, "AAK" for TEFAS fund)
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([asset, userId])
+}
+
+model User {
+  id              String   @id @default(cuid())
+  username        String   @unique
+  password        String   // Hashed password
+  name            String?
+  role            String   @default("viewer") // 'admin' | 'viewer' | 'investor'
+  transactions    Transaction[]
+  assetSettings   AssetSettings[]
+  userPreferences UserPreference[]
+  assetDataSources AssetDataSource[]
+  monthlyHistories MonthlyHistory[]
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+
+model MonthlyHistory {
+  id            String   @id @default(cuid())
+  date          DateTime // Should be set to the last day of the month
+  totalValueTRY Float
+  totalValueUSD Float
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([date, userId])
+}

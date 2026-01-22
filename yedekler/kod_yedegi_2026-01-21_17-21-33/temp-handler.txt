@@ -1,0 +1,23 @@
+    }, []); // Run on mount
+
+    // Fetch TEFAS price for AK2 (using server action to avoid CORS)
+    const handleFetchTefasPrice = async () => {
+        try {
+            const { fetchTefasPriceAction } = await import('@/actions');
+            const result = await fetchTefasPriceAction('AK2');
+            
+            if (result.success && result.price) {
+                // Update TRY price
+                updateAssetPrice('AK2', result.price, 'TRY');
+                
+                alert(`TEFAS fiyatı çekildi!\nTRY: ${result.price.toFixed(6)}`);
+            } else {
+                alert('TEFAS fiyatı çekilemedi: ' + (result.error || 'Bilinmeyen hata'));
+            }
+        } catch (error) {
+            console.error('TEFAS fetch error:', error);
+            alert('Bir hata oluştu: ' + error);
+        }
+    };
+
+    const handleRateChange = (key: string, value: string) => {

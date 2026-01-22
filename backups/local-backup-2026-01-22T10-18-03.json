@@ -1,0 +1,1582 @@
+{
+  "timestamp": "2026-01-22T10-18-03",
+  "users": [
+    {
+      "id": "cmklfp8640000tkx4qy1kcyys",
+      "username": "deniz.bagci",
+      "password": "$2b$10$09A1qDBw6GTQpuynQvyjQOlH0w1IcZdxu6sobVHnoRy9/A08ox/8u",
+      "name": "Dbank Admin",
+      "role": "admin",
+      "createdAt": "2026-01-19T17:23:37.756Z",
+      "updatedAt": "2026-01-21T14:01:27.500Z"
+    }
+  ],
+  "transactions": [
+    {
+      "id": "cmklftgrn0001tke01k6cxzcp",
+      "type": "BUY",
+      "asset": "IHT",
+      "date": "2024-05-14T00:00:00.000Z",
+      "amount": 2696,
+      "priceTRY": 2.967,
+      "usdRate": 32.25,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:26:55.523Z",
+      "updatedAt": "2026-01-19T17:26:55.523Z"
+    },
+    {
+      "id": "cmklftgz60003tke0obiz3nou",
+      "type": "BUY",
+      "asset": "IHT",
+      "date": "2024-03-04T00:00:00.000Z",
+      "amount": 5945,
+      "priceTRY": 2.798,
+      "usdRate": 31.527,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:26:55.794Z",
+      "updatedAt": "2026-01-19T17:26:55.794Z"
+    },
+    {
+      "id": "cmklfth2v0005tke01j2xe2kc",
+      "type": "BUY",
+      "asset": "IHT",
+      "date": "2023-10-03T00:00:00.000Z",
+      "amount": 7800,
+      "priceTRY": 2.82,
+      "usdRate": 27.499,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:26:55.927Z",
+      "updatedAt": "2026-01-19T17:26:55.927Z"
+    },
+    {
+      "id": "cmklfth6k0007tke0vtafgx73",
+      "type": "BUY",
+      "asset": "IHT",
+      "date": "2023-08-01T00:00:00.000Z",
+      "amount": 6306,
+      "priceTRY": 2.164,
+      "usdRate": 26.965,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:26:56.061Z",
+      "updatedAt": "2026-01-19T17:26:56.061Z"
+    },
+    {
+      "id": "cmklfthab0009tke02dazd9ow",
+      "type": "BUY",
+      "asset": "IHT",
+      "date": "2023-05-03T00:00:00.000Z",
+      "amount": 10952,
+      "priceTRY": 1.3695,
+      "usdRate": 19.4748,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:26:56.195Z",
+      "updatedAt": "2026-01-19T17:26:56.195Z"
+    },
+    {
+      "id": "cmklftheb000btke0ph97io0r",
+      "type": "BUY",
+      "asset": "TI2",
+      "date": "2025-03-19T00:00:00.000Z",
+      "amount": 1252866,
+      "priceTRY": 0.108551,
+      "usdRate": 37.992,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:26:56.340Z",
+      "updatedAt": "2026-01-19T17:26:56.340Z"
+    },
+    {
+      "id": "cmklfthi1000dtke03lpkb8s3",
+      "type": "BUY",
+      "asset": "TI1",
+      "date": "2025-11-28T00:00:00.000Z",
+      "amount": 47,
+      "priceTRY": 1267.314,
+      "usdRate": 42.496,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:26:56.474Z",
+      "updatedAt": "2026-01-19T17:26:56.474Z"
+    },
+    {
+      "id": "cmklfthlr000ftke096xe0oxe",
+      "type": "BUY",
+      "asset": "TI1",
+      "date": "2025-11-10T00:00:00.000Z",
+      "amount": 60,
+      "priceTRY": 1244.1,
+      "usdRate": 42.225,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:26:56.608Z",
+      "updatedAt": "2026-01-19T17:26:56.608Z"
+    },
+    {
+      "id": "cmklfthqv000htke094hs1m6l",
+      "type": "BUY",
+      "asset": "TI1",
+      "date": "2025-10-31T00:00:00.000Z",
+      "amount": 14,
+      "priceTRY": 1230.898,
+      "usdRate": 42.049,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:26:56.792Z",
+      "updatedAt": "2026-01-19T17:26:56.792Z"
+    },
+    {
+      "id": "cmklfthuj000jtke05qbdch1j",
+      "type": "BUY",
+      "asset": "TI1",
+      "date": "2025-09-30T00:00:00.000Z",
+      "amount": 41,
+      "priceTRY": 1189.9658,
+      "usdRate": 41.583,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:26:56.923Z",
+      "updatedAt": "2026-01-19T17:26:56.923Z"
+    },
+    {
+      "id": "cmklfthy7000ltke08thmm8p0",
+      "type": "BUY",
+      "asset": "FSF",
+      "date": "2025-07-07T00:00:00.000Z",
+      "amount": 33501,
+      "priceTRY": 4.462,
+      "usdRate": 40,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:26:57.055Z",
+      "updatedAt": "2026-01-19T17:26:57.055Z"
+    },
+    {
+      "id": "cmklfti20000ntke0tv7jjkrn",
+      "type": "BUY",
+      "asset": "FSF",
+      "date": "2025-07-01T00:00:00.000Z",
+      "amount": 5525,
+      "priceTRY": 4.4294,
+      "usdRate": 39.854,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:26:57.192Z",
+      "updatedAt": "2026-01-19T17:26:57.192Z"
+    },
+    {
+      "id": "cmklfti5q000ptke0uoirtnao",
+      "type": "BUY",
+      "asset": "FSF",
+      "date": "2025-04-28T00:00:00.000Z",
+      "amount": 25856,
+      "priceTRY": 4.0811,
+      "usdRate": 38.444,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:26:57.327Z",
+      "updatedAt": "2026-01-19T17:26:57.327Z"
+    },
+    {
+      "id": "cmklfti9g000rtke0shza8qa4",
+      "type": "BUY",
+      "asset": "FBV",
+      "date": "2025-03-19T00:00:00.000Z",
+      "amount": 15547,
+      "priceTRY": 4.9613,
+      "usdRate": 37.992,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:26:57.460Z",
+      "updatedAt": "2026-01-19T17:26:57.460Z"
+    },
+    {
+      "id": "cmklftidc000ttke05qedgtxe",
+      "type": "BUY",
+      "asset": "IOG",
+      "date": "2025-11-03T00:00:00.000Z",
+      "amount": 1562,
+      "priceTRY": 9.598,
+      "usdRate": 42.048,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:26:57.601Z",
+      "updatedAt": "2026-01-19T17:26:57.601Z"
+    },
+    {
+      "id": "cmklftih2000vtke09e6x97ur",
+      "type": "BUY",
+      "asset": "IOG",
+      "date": "2025-09-09T00:00:00.000Z",
+      "amount": 513,
+      "priceTRY": 7.8913,
+      "usdRate": 41.275,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:26:57.734Z",
+      "updatedAt": "2026-01-19T17:26:57.734Z"
+    },
+    {
+      "id": "cmklftikr000xtke03gorp35r",
+      "type": "BUY",
+      "asset": "IOG",
+      "date": "2025-09-01T00:00:00.000Z",
+      "amount": 2164,
+      "priceTRY": 7.6157,
+      "usdRate": 41.115,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:26:57.868Z",
+      "updatedAt": "2026-01-19T17:26:57.868Z"
+    },
+    {
+      "id": "cmklftjig001ftke056mdickz",
+      "type": "BUY",
+      "asset": "AFT",
+      "date": "2025-11-11T00:00:00.000Z",
+      "amount": 59964,
+      "priceTRY": 0.8338,
+      "usdRate": 42.235,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:26:59.080Z",
+      "updatedAt": "2026-01-19T17:26:59.080Z"
+    },
+    {
+      "id": "cmklftjm4001htke0lc810o4h",
+      "type": "BUY",
+      "asset": "PIL",
+      "date": "2026-01-02T00:00:00.000Z",
+      "amount": 10325,
+      "priceTRY": 3.1107,
+      "usdRate": 43.028,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:26:59.212Z",
+      "updatedAt": "2026-01-19T17:26:59.212Z"
+    },
+    {
+      "id": "cmklftjps001jtke0l3fb12ln",
+      "type": "BUY",
+      "asset": "AK2",
+      "date": "2025-12-09T00:00:00.000Z",
+      "amount": 63344,
+      "priceTRY": 0.481,
+      "usdRate": 42.583,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:26:59.344Z",
+      "updatedAt": "2026-01-19T17:26:59.344Z"
+    },
+    {
+      "id": "cmklftjti001ltke0x4j9mhej",
+      "type": "BUY",
+      "asset": "AOY",
+      "date": "2025-11-11T00:00:00.000Z",
+      "amount": 83831,
+      "priceTRY": 0.2982,
+      "usdRate": 42.235,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:26:59.478Z",
+      "updatedAt": "2026-01-19T17:26:59.478Z"
+    },
+    {
+      "id": "cmklftjx8001ntke0b1l8jap0",
+      "type": "BUY",
+      "asset": "IUV",
+      "date": "2025-08-07T00:00:00.000Z",
+      "amount": 3207,
+      "priceTRY": 52.9,
+      "usdRate": 40.642,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:26:59.612Z",
+      "updatedAt": "2026-01-19T17:26:59.612Z"
+    },
+    {
+      "id": "cmklftk0x001ptke0cav0y4ok",
+      "type": "BUY",
+      "asset": "IUV",
+      "date": "2025-08-11T00:00:00.000Z",
+      "amount": 3208,
+      "priceTRY": 52.9,
+      "usdRate": 40.704,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:26:59.745Z",
+      "updatedAt": "2026-01-19T17:26:59.745Z"
+    },
+    {
+      "id": "cmklftk4l001rtke0zw6bnl5x",
+      "type": "BUY",
+      "asset": "IUV",
+      "date": "2025-09-03T00:00:00.000Z",
+      "amount": 2730,
+      "priceTRY": 53.9,
+      "usdRate": 41.167,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:26:59.877Z",
+      "updatedAt": "2026-01-19T17:26:59.877Z"
+    },
+    {
+      "id": "cmklftk8j001ttke0hb9ra4tf",
+      "type": "BUY",
+      "asset": "IUF",
+      "date": "2025-10-02T00:00:00.000Z",
+      "amount": 2968,
+      "priceTRY": 57.1,
+      "usdRate": 41.61,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:27:00.020Z",
+      "updatedAt": "2026-01-19T17:27:00.020Z"
+    },
+    {
+      "id": "cmklftkc9001vtke0iglcdzux",
+      "type": "BUY",
+      "asset": "IUF",
+      "date": "2025-08-01T00:00:00.000Z",
+      "amount": 968,
+      "priceTRY": 54.6,
+      "usdRate": 40.668,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:27:00.153Z",
+      "updatedAt": "2026-01-19T17:27:00.153Z"
+    },
+    {
+      "id": "cmklftkqw0023tke00qlbq2af",
+      "type": "BUY",
+      "asset": "GBP",
+      "date": "2026-01-16T00:00:00.000Z",
+      "amount": 290,
+      "priceTRY": 57.88,
+      "usdRate": 43.28,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:27:00.680Z",
+      "updatedAt": "2026-01-19T17:27:00.680Z"
+    },
+    {
+      "id": "cmklftkum0025tke0pnzbz7p4",
+      "type": "BUY",
+      "asset": "EUR",
+      "date": "2026-01-16T00:00:00.000Z",
+      "amount": 1279,
+      "priceTRY": 50.17,
+      "usdRate": 43.28,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:27:00.814Z",
+      "updatedAt": "2026-01-19T17:27:00.814Z"
+    },
+    {
+      "id": "cmklftkye0027tke0rtmge9uj",
+      "type": "BUY",
+      "asset": "USD",
+      "date": "2026-01-16T00:00:00.000Z",
+      "amount": 0.22,
+      "priceTRY": 43.27,
+      "usdRate": 43.28,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:27:00.951Z",
+      "updatedAt": "2026-01-19T17:27:00.951Z"
+    },
+    {
+      "id": "cmklftl220029tke0cohk6c14",
+      "type": "BUY",
+      "asset": "TRY",
+      "date": "2026-01-16T00:00:00.000Z",
+      "amount": 3643,
+      "priceTRY": 1,
+      "usdRate": 43.28,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:27:01.082Z",
+      "updatedAt": "2026-01-19T17:27:01.082Z"
+    },
+    {
+      "id": "cmklftj7g0019tke0qgwjhch2",
+      "type": "BUY",
+      "asset": "AKBNK.IS",
+      "date": "2025-10-08T00:00:00.000Z",
+      "amount": 750,
+      "priceTRY": 59.85,
+      "usdRate": 41.715,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:26:58.684Z",
+      "updatedAt": "2026-01-19T19:05:27.802Z"
+    },
+    {
+      "id": "cmklftjb4001btke0qyvxq9k4",
+      "type": "BUY",
+      "asset": "AKBNK.IS",
+      "date": "2025-09-18T00:00:00.000Z",
+      "amount": 761,
+      "priceTRY": 65.6,
+      "usdRate": 41.301,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:26:58.816Z",
+      "updatedAt": "2026-01-19T19:05:27.802Z"
+    },
+    {
+      "id": "cmklftjes001dtke0y85dgedp",
+      "type": "BUY",
+      "asset": "PGSUS.IS",
+      "date": "2025-09-18T00:00:00.000Z",
+      "amount": 110,
+      "priceTRY": 233.9,
+      "usdRate": 41.301,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:26:58.949Z",
+      "updatedAt": "2026-01-19T19:08:12.242Z"
+    },
+    {
+      "id": "cmklftion000ztke0xonld6by",
+      "type": "BUY",
+      "asset": "TTRAK.IS",
+      "date": "2025-11-14T00:00:00.000Z",
+      "amount": 2,
+      "priceTRY": 739.501,
+      "usdRate": 42.33,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:26:58.007Z",
+      "updatedAt": "2026-01-19T19:08:13.443Z"
+    },
+    {
+      "id": "cmklftisa0011tke0a9urvgdb",
+      "type": "BUY",
+      "asset": "TTRAK.IS",
+      "date": "2024-07-29T00:00:00.000Z",
+      "amount": 25,
+      "priceTRY": 796,
+      "usdRate": 33.013,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:26:58.138Z",
+      "updatedAt": "2026-01-19T19:08:13.443Z"
+    },
+    {
+      "id": "cmklftiw00013tke0ozphyf6n",
+      "type": "BUY",
+      "asset": "TTRAK.IS",
+      "date": "2024-07-05T00:00:00.000Z",
+      "amount": 22,
+      "priceTRY": 905.5,
+      "usdRate": 32.711,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:26:58.273Z",
+      "updatedAt": "2026-01-19T19:08:13.443Z"
+    },
+    {
+      "id": "cmklftizp0015tke01o87c1ij",
+      "type": "BUY",
+      "asset": "TTRAK.IS",
+      "date": "2024-06-28T00:00:00.000Z",
+      "amount": 5,
+      "priceTRY": 919,
+      "usdRate": 32.87,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:26:58.405Z",
+      "updatedAt": "2026-01-19T19:08:13.443Z"
+    },
+    {
+      "id": "cmklftl5s002btke089eej8e9",
+      "type": "BUY",
+      "asset": "GC=F",
+      "date": "2018-09-14T00:00:00.000Z",
+      "amount": 25.66,
+      "priceTRY": 233.82,
+      "usdRate": 6.17,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:27:01.216Z",
+      "updatedAt": "2026-01-19T19:11:43.844Z"
+    },
+    {
+      "id": "cmklftl9h002dtke0m9cl92bi",
+      "type": "BUY",
+      "asset": "GC=F",
+      "date": "2018-09-28T00:00:00.000Z",
+      "amount": 25.11,
+      "priceTRY": 228.4,
+      "usdRate": 6.06,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:27:01.350Z",
+      "updatedAt": "2026-01-19T19:11:43.844Z"
+    },
+    {
+      "id": "cmklftld5002ftke037ca0ri7",
+      "type": "BUY",
+      "asset": "GC=F",
+      "date": "2018-10-02T00:00:00.000Z",
+      "amount": 8.65,
+      "priceTRY": 230.62,
+      "usdRate": 5.99,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:27:01.481Z",
+      "updatedAt": "2026-01-19T19:11:43.844Z"
+    },
+    {
+      "id": "cmklftlgs002htke0ba3ljsea",
+      "type": "BUY",
+      "asset": "GC=F",
+      "date": "2018-11-02T00:00:00.000Z",
+      "amount": 6.9,
+      "priceTRY": 217.21,
+      "usdRate": 5.43,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:27:01.612Z",
+      "updatedAt": "2026-01-19T19:11:43.844Z"
+    },
+    {
+      "id": "cmklftkfw001xtke0kvxpoor3",
+      "type": "BUY",
+      "asset": "PL=F",
+      "date": "2055-12-31T00:00:00.000Z",
+      "amount": 7.06,
+      "priceTRY": 2827.17,
+      "usdRate": 43.28,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:27:00.285Z",
+      "updatedAt": "2026-01-19T19:16:05.730Z"
+    },
+    {
+      "id": "cmklftkjj001ztke0jn1onogq",
+      "type": "BUY",
+      "asset": "PL=F",
+      "date": "2025-11-29T00:00:00.000Z",
+      "amount": 8.14,
+      "priceTRY": 3061.58,
+      "usdRate": 42.496,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:27:00.416Z",
+      "updatedAt": "2026-01-19T19:16:05.730Z"
+    },
+    {
+      "id": "cmklftkn70021tke0dod3eerp",
+      "type": "BUY",
+      "asset": "PL=F",
+      "date": "2025-11-21T00:00:00.000Z",
+      "amount": 25.54,
+      "priceTRY": 2082.13,
+      "usdRate": 42.444,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:27:00.547Z",
+      "updatedAt": "2026-01-19T19:16:05.730Z"
+    },
+    {
+      "id": "cmklftj3f0017tke0vivnud8y",
+      "type": "BUY",
+      "asset": "TTRAK.IS",
+      "date": "2024-06-14T00:00:00.000Z",
+      "amount": 8,
+      "priceTRY": 931.501,
+      "usdRate": 32.644,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:26:58.540Z",
+      "updatedAt": "2026-01-19T19:08:13.443Z"
+    },
+    {
+      "id": "cmklftlkg002jtke09y5r6dtv",
+      "type": "BUY",
+      "asset": "GC=F",
+      "date": "2018-12-03T00:00:00.000Z",
+      "amount": 5.79,
+      "priceTRY": 207,
+      "usdRate": 5.25,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:27:01.745Z",
+      "updatedAt": "2026-01-19T19:11:43.844Z"
+    },
+    {
+      "id": "cmklftlp9002ltke0do43hrww",
+      "type": "SELL",
+      "asset": "GC=F",
+      "date": "2019-01-03T00:00:00.000Z",
+      "amount": 36.11,
+      "priceTRY": 225.28,
+      "usdRate": 5.47,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:27:01.917Z",
+      "updatedAt": "2026-01-19T19:11:43.844Z"
+    },
+    {
+      "id": "cmklftlsw002ntke0lhgt5z7z",
+      "type": "BUY",
+      "asset": "GC=F",
+      "date": "2019-01-07T00:00:00.000Z",
+      "amount": 42.16,
+      "priceTRY": 222.82,
+      "usdRate": 5.38,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:27:02.049Z",
+      "updatedAt": "2026-01-19T19:11:43.844Z"
+    },
+    {
+      "id": "cmklftlwj002ptke0plurahjz",
+      "type": "BUY",
+      "asset": "GC=F",
+      "date": "2019-03-04T00:00:00.000Z",
+      "amount": 7.82,
+      "priceTRY": 223.61,
+      "usdRate": 5.39,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:27:02.180Z",
+      "updatedAt": "2026-01-19T19:11:43.844Z"
+    },
+    {
+      "id": "cmklftm08002rtke0uxdoritm",
+      "type": "BUY",
+      "asset": "GC=F",
+      "date": "2019-03-20T00:00:00.000Z",
+      "amount": 6.52,
+      "priceTRY": 229.76,
+      "usdRate": 5.43,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:27:02.312Z",
+      "updatedAt": "2026-01-19T19:11:43.844Z"
+    },
+    {
+      "id": "cmklftm4x002ttke0dxk31s5k",
+      "type": "BUY",
+      "asset": "GC=F",
+      "date": "2019-05-31T00:00:00.000Z",
+      "amount": 20.5,
+      "priceTRY": 243.87,
+      "usdRate": 5.84,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:27:02.481Z",
+      "updatedAt": "2026-01-19T19:11:43.844Z"
+    },
+    {
+      "id": "cmklftm8m002vtke0veybraj5",
+      "type": "SELL",
+      "asset": "GC=F",
+      "date": "2019-08-20T00:00:00.000Z",
+      "amount": 3.51,
+      "priceTRY": 269.04,
+      "usdRate": 5.73,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:27:02.614Z",
+      "updatedAt": "2026-01-19T19:11:43.844Z"
+    },
+    {
+      "id": "cmklftmca002xtke0qu2gvtlp",
+      "type": "SELL",
+      "asset": "GC=F",
+      "date": "2019-11-18T00:00:00.000Z",
+      "amount": 2,
+      "priceTRY": 267.92,
+      "usdRate": 5.73,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:27:02.746Z",
+      "updatedAt": "2026-01-19T19:11:43.844Z"
+    },
+    {
+      "id": "cmklftmfw002ztke03w029uq6",
+      "type": "SELL",
+      "asset": "GC=F",
+      "date": "2020-02-24T00:00:00.000Z",
+      "amount": 2.13,
+      "priceTRY": 329.96,
+      "usdRate": 6.12,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:27:02.877Z",
+      "updatedAt": "2026-01-19T19:11:43.844Z"
+    },
+    {
+      "id": "cmklftmjk0031tke0zoubmoom",
+      "type": "BUY",
+      "asset": "GC=F",
+      "date": "2020-05-27T00:00:00.000Z",
+      "amount": 7.99,
+      "priceTRY": 375.4,
+      "usdRate": 6.78,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:27:03.008Z",
+      "updatedAt": "2026-01-19T19:11:43.844Z"
+    },
+    {
+      "id": "cmklftmn80033tke0y7k4vnkf",
+      "type": "BUY",
+      "asset": "GC=F",
+      "date": "2020-11-09T00:00:00.000Z",
+      "amount": 4.05,
+      "priceTRY": 491.65,
+      "usdRate": 8.11,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:27:03.140Z",
+      "updatedAt": "2026-01-19T19:11:43.844Z"
+    },
+    {
+      "id": "cmklftmqv0035tke0xvh7ad9m",
+      "type": "SELL",
+      "asset": "GC=F",
+      "date": "2021-01-19T00:00:00.000Z",
+      "amount": 34.99,
+      "priceTRY": 435.13,
+      "usdRate": 7.47,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:27:03.272Z",
+      "updatedAt": "2026-01-19T19:11:43.844Z"
+    },
+    {
+      "id": "cmklftmum0037tke0xpro1sc2",
+      "type": "SELL",
+      "asset": "GC=F",
+      "date": "2021-01-21T00:00:00.000Z",
+      "amount": 11.43,
+      "priceTRY": 437.72,
+      "usdRate": 7.37,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:27:03.407Z",
+      "updatedAt": "2026-01-19T19:11:43.844Z"
+    },
+    {
+      "id": "cmklftmyb0039tke0j9t5f8cm",
+      "type": "BUY",
+      "asset": "GC=F",
+      "date": "2021-03-05T00:00:00.000Z",
+      "amount": 8.51,
+      "priceTRY": 410.07,
+      "usdRate": 7.54,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:27:03.539Z",
+      "updatedAt": "2026-01-19T19:11:43.844Z"
+    },
+    {
+      "id": "cmklftn21003btke0zajpx1lv",
+      "type": "BUY",
+      "asset": "GC=F",
+      "date": "2021-08-31T00:00:00.000Z",
+      "amount": 8.78,
+      "priceTRY": 482.93,
+      "usdRate": 8.3,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:27:03.674Z",
+      "updatedAt": "2026-01-19T19:11:43.844Z"
+    },
+    {
+      "id": "cmklftn5q003dtke09vymowqm",
+      "type": "BUY",
+      "asset": "GC=F",
+      "date": "2022-01-28T00:00:00.000Z",
+      "amount": 8.89,
+      "priceTRY": 785.08,
+      "usdRate": 13.55,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:27:03.806Z",
+      "updatedAt": "2026-01-19T19:11:43.844Z"
+    },
+    {
+      "id": "cmklftn9e003ftke0tctm3f9t",
+      "type": "BUY",
+      "asset": "GC=F",
+      "date": "2022-02-01T00:00:00.000Z",
+      "amount": 6.38,
+      "priceTRY": 781.02,
+      "usdRate": 13.35,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:27:03.939Z",
+      "updatedAt": "2026-01-19T19:11:43.844Z"
+    },
+    {
+      "id": "cmklftnd2003htke0yuzmjb2g",
+      "type": "BUY",
+      "asset": "GC=F",
+      "date": "2024-03-11T00:00:00.000Z",
+      "amount": 4.87,
+      "priceTRY": 2319,
+      "usdRate": 32.04,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:27:04.071Z",
+      "updatedAt": "2026-01-19T19:11:43.844Z"
+    },
+    {
+      "id": "cmklftngs003jtke0czl8vnam",
+      "type": "BUY",
+      "asset": "GC=F",
+      "date": "2024-04-01T00:00:00.000Z",
+      "amount": 3.92,
+      "priceTRY": 2423.47,
+      "usdRate": 32.26,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:27:04.205Z",
+      "updatedAt": "2026-01-19T19:11:43.844Z"
+    },
+    {
+      "id": "cmklftnkg003ltke0khfcdyth",
+      "type": "BUY",
+      "asset": "GC=F",
+      "date": "2024-04-30T00:00:00.000Z",
+      "amount": 4.07,
+      "priceTRY": 2456,
+      "usdRate": 32.4,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:27:04.337Z",
+      "updatedAt": "2026-01-19T19:11:43.844Z"
+    },
+    {
+      "id": "cmklftno5003ntke09lr8i13s",
+      "type": "BUY",
+      "asset": "GC=F",
+      "date": "2024-12-31T00:00:00.000Z",
+      "amount": 6.67,
+      "priceTRY": 2997.71,
+      "usdRate": 35.36,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:27:04.469Z",
+      "updatedAt": "2026-01-19T19:11:43.844Z"
+    },
+    {
+      "id": "cmklftnru003ptke0rxclmdl8",
+      "type": "BUY",
+      "asset": "GC=F",
+      "date": "2025-01-06T00:00:00.000Z",
+      "amount": 9.05,
+      "priceTRY": 3015.44,
+      "usdRate": 35.34,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:27:04.602Z",
+      "updatedAt": "2026-01-19T19:11:43.844Z"
+    },
+    {
+      "id": "cmklftnvh003rtke0xy53j8sq",
+      "type": "BUY",
+      "asset": "GC=F",
+      "date": "2025-02-28T00:00:00.000Z",
+      "amount": 11.83,
+      "priceTRY": 3383,
+      "usdRate": 36.4,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:27:04.733Z",
+      "updatedAt": "2026-01-19T19:11:43.844Z"
+    },
+    {
+      "id": "cmklftnz6003ttke0sqjnwcuc",
+      "type": "BUY",
+      "asset": "GC=F",
+      "date": "2025-03-03T00:00:00.000Z",
+      "amount": 4.42,
+      "priceTRY": 3389,
+      "usdRate": 36.44,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:27:04.866Z",
+      "updatedAt": "2026-01-19T19:11:43.844Z"
+    },
+    {
+      "id": "cmklfto2u003vtke0ewc736hf",
+      "type": "BUY",
+      "asset": "GC=F",
+      "date": "2025-04-27T00:00:00.000Z",
+      "amount": 18.32,
+      "priceTRY": 4085.68,
+      "usdRate": 38.44,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:27:04.999Z",
+      "updatedAt": "2026-01-19T19:11:43.844Z"
+    },
+    {
+      "id": "cmklfto6j003xtke0ttkfodcx",
+      "type": "BUY",
+      "asset": "GC=F",
+      "date": "2025-04-28T00:00:00.000Z",
+      "amount": 1.22,
+      "priceTRY": 4087.45,
+      "usdRate": 38.44,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:27:05.131Z",
+      "updatedAt": "2026-01-19T19:11:43.844Z"
+    },
+    {
+      "id": "cmklftoa8003ztke0h8m01a23",
+      "type": "BUY",
+      "asset": "GC=F",
+      "date": "2025-04-30T00:00:00.000Z",
+      "amount": 12.69,
+      "priceTRY": 4125,
+      "usdRate": 38.5,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:27:05.264Z",
+      "updatedAt": "2026-01-19T19:11:43.844Z"
+    },
+    {
+      "id": "cmklftodv0041tke0ceiddq3r",
+      "type": "BUY",
+      "asset": "GC=F",
+      "date": "2025-05-03T00:00:00.000Z",
+      "amount": 7.35,
+      "priceTRY": 4073,
+      "usdRate": 38.46,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:27:05.395Z",
+      "updatedAt": "2026-01-19T19:11:43.844Z"
+    },
+    {
+      "id": "cmklftohj0043tke04mlmdea5",
+      "type": "BUY",
+      "asset": "GC=F",
+      "date": "2025-06-30T00:00:00.000Z",
+      "amount": 0.59,
+      "priceTRY": 4216.49,
+      "usdRate": 39.83,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:27:05.527Z",
+      "updatedAt": "2026-01-19T19:11:43.844Z"
+    },
+    {
+      "id": "cmklftol60045tke0agd6d0em",
+      "type": "BUY",
+      "asset": "GC=F",
+      "date": "2025-10-29T00:00:00.000Z",
+      "amount": 1.82,
+      "priceTRY": 5464.82,
+      "usdRate": 42.03,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:27:05.658Z",
+      "updatedAt": "2026-01-19T19:11:43.844Z"
+    },
+    {
+      "id": "cmklftoou0047tke041mnrw1n",
+      "type": "BUY",
+      "asset": "GC=F",
+      "date": "2025-10-30T00:00:00.000Z",
+      "amount": 0.22,
+      "priceTRY": 5463.31,
+      "usdRate": 42.03,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-19T17:27:05.790Z",
+      "updatedAt": "2026-01-19T19:11:43.844Z"
+    },
+    {
+      "id": "cmknytz760043tku0zm69h351",
+      "type": "SELL",
+      "asset": "TRY",
+      "date": "2026-01-21T00:00:00.000Z",
+      "amount": 1000,
+      "priceTRY": 1,
+      "usdRate": 43.273,
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-21T11:54:44.254Z",
+      "updatedAt": "2026-01-21T11:54:44.254Z"
+    }
+  ],
+  "monthlyHistory": [
+    {
+      "id": "cmkmsjjr20001tk80n7cbum7t",
+      "date": "2025-01-31T00:00:00.000Z",
+      "totalValueTRY": 1652566,
+      "totalValueUSD": 46544,
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmkmsjk3l0003tk80mexd07g3",
+      "date": "2025-02-28T00:00:00.000Z",
+      "totalValueTRY": 1796000,
+      "totalValueUSD": 49607,
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmkmsjkb00005tk80ut4q29v7",
+      "date": "2025-04-30T00:00:00.000Z",
+      "totalValueTRY": 2211655,
+      "totalValueUSD": 58011,
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmkmsjkie0007tk80zhxp6oda",
+      "date": "2025-05-31T00:00:00.000Z",
+      "totalValueTRY": 2211655,
+      "totalValueUSD": 57046,
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmkmsjkps0009tk80nhsglmfa",
+      "date": "2025-06-30T00:00:00.000Z",
+      "totalValueTRY": 2242974,
+      "totalValueUSD": 56836,
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmkmsjkxn000btk80gb9fx7zn",
+      "date": "2025-07-31T00:00:00.000Z",
+      "totalValueTRY": 2606525,
+      "totalValueUSD": 64831,
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmkmsjl4x000dtk80vaav66pm",
+      "date": "2025-08-31T00:00:00.000Z",
+      "totalValueTRY": 2683610,
+      "totalValueUSD": 65741,
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmkmsjlc9000ftk80q9dztrxu",
+      "date": "2025-09-30T00:00:00.000Z",
+      "totalValueTRY": 2892074,
+      "totalValueUSD": 70028,
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmkmsjljk000htk80mageo7bm",
+      "date": "2025-10-31T00:00:00.000Z",
+      "totalValueTRY": 2984976,
+      "totalValueUSD": 71347,
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmkmsjlqz000jtk80xfc4vtat",
+      "date": "2025-11-30T00:00:00.000Z",
+      "totalValueTRY": 3154707,
+      "totalValueUSD": 74626,
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmkmsjly9000ltk80i3ubplh1",
+      "date": "2025-12-31T00:00:00.000Z",
+      "totalValueTRY": 3350200,
+      "totalValueUSD": 77965,
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    }
+  ],
+  "assetSettings": [
+    {
+      "id": "cmkljhqyy004btkw0fxt44wyu",
+      "asset": "PGSUS.IS",
+      "driver": "TRY",
+      "manualPrice": 201.7,
+      "priceCurrency": "TRY",
+      "lastFetchedAt": "2026-01-22T08:48:33.149Z",
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmklj7z9j0039tkw0aoincv6s",
+      "asset": "PIL",
+      "driver": "USD",
+      "manualPrice": 3.504925,
+      "priceCurrency": "TRY",
+      "lastFetchedAt": "2026-01-22T08:47:39.129Z",
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmko2zrv2004btkioyl2cykx5",
+      "asset": "0",
+      "driver": "USD",
+      "manualPrice": 79.55305466237941,
+      "priceCurrency": "USD",
+      "lastFetchedAt": null,
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmko2zs2q004dtkiocr9owjo1",
+      "asset": "1",
+      "driver": "TRY",
+      "manualPrice": 563,
+      "priceCurrency": "TRY",
+      "lastFetchedAt": null,
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmko2zs6j004ftkioqiaump5w",
+      "asset": "2",
+      "driver": "USD",
+      "manualPrice": 156.4582763997621,
+      "priceCurrency": "USD",
+      "lastFetchedAt": null,
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmko2zsad004htkio6f5nstu5",
+      "asset": "3",
+      "driver": "TRY",
+      "manualPrice": 78.75,
+      "priceCurrency": "TRY",
+      "lastFetchedAt": null,
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmko2zse7004jtkiozhhstb6u",
+      "asset": "4",
+      "driver": "TRY",
+      "manualPrice": 198.4,
+      "priceCurrency": "TRY",
+      "lastFetchedAt": null,
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmko2zsi2004ltkiosszail64",
+      "asset": "5",
+      "driver": "TRY",
+      "manualPrice": 0.121522,
+      "priceCurrency": "TRY",
+      "lastFetchedAt": null,
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmko2zslw004ntkiozyukkp34",
+      "asset": "6",
+      "driver": "TRY",
+      "manualPrice": 1338.944696,
+      "priceCurrency": "TRY",
+      "lastFetchedAt": null,
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmko2zspz004ptkioxq4sot1l",
+      "asset": "7",
+      "driver": "USD",
+      "manualPrice": null,
+      "priceCurrency": null,
+      "lastFetchedAt": null,
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmko2zstw004rtkioyf9ldtz7",
+      "asset": "8",
+      "driver": "USD",
+      "manualPrice": null,
+      "priceCurrency": null,
+      "lastFetchedAt": null,
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmko2zsxq004ttkio1joax9zq",
+      "asset": "9",
+      "driver": "USD",
+      "manualPrice": null,
+      "priceCurrency": null,
+      "lastFetchedAt": null,
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmko2zt1j004vtkiov9631nn0",
+      "asset": "10",
+      "driver": "TRY",
+      "manualPrice": 0.507526,
+      "priceCurrency": "TRY",
+      "lastFetchedAt": null,
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmkliu4q9001htkw06673wovo",
+      "asset": "AK2",
+      "driver": "TRY",
+      "manualPrice": 0.508552,
+      "priceCurrency": "TRY",
+      "lastFetchedAt": "2026-01-22T08:47:40.610Z",
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmkljr7kq0073tkw08khig3uj",
+      "asset": "GBP",
+      "driver": "USD",
+      "manualPrice": null,
+      "priceCurrency": null,
+      "lastFetchedAt": null,
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmkljr8ki0075tkw0km76gmm1",
+      "asset": "USD",
+      "driver": "USD",
+      "manualPrice": null,
+      "priceCurrency": null,
+      "lastFetchedAt": null,
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmkljrbhh0077tkw05jdnog56",
+      "asset": "EUR",
+      "driver": "USD",
+      "manualPrice": null,
+      "priceCurrency": null,
+      "lastFetchedAt": null,
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmklix2b60025tkw0a2xred2w",
+      "asset": "TI1",
+      "driver": "TRY",
+      "manualPrice": 1340.284231,
+      "priceCurrency": "TRY",
+      "lastFetchedAt": "2026-01-22T08:47:42.359Z",
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmko2zt5d004xtkiopbdnpcpx",
+      "asset": "11",
+      "driver": "USD",
+      "manualPrice": 3.463953,
+      "priceCurrency": "TRY",
+      "lastFetchedAt": null,
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmko2zt97004ztkiol1geq0x7",
+      "asset": "12",
+      "driver": "USD",
+      "manualPrice": 0.853935,
+      "priceCurrency": "TRY",
+      "lastFetchedAt": null,
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmklixdqv002dtkw0pjtz2xnv",
+      "asset": "AOY",
+      "driver": "USD",
+      "manualPrice": 0.317702,
+      "priceCurrency": "TRY",
+      "lastFetchedAt": "2026-01-22T08:47:44.553Z",
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmklixf0c002ftkw0ru9a5bxc",
+      "asset": "AFT",
+      "driver": "USD",
+      "manualPrice": 0.854064,
+      "priceCurrency": "TRY",
+      "lastFetchedAt": "2026-01-22T08:47:46.108Z",
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmklixbsq002btkw0yvpm4aao",
+      "asset": "IOG",
+      "driver": "USD",
+      "manualPrice": 18.214598,
+      "priceCurrency": "TRY",
+      "lastFetchedAt": "2026-01-22T08:47:47.527Z",
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmko2ztd00051tkiob9kz3hos",
+      "asset": "13",
+      "driver": "USD",
+      "manualPrice": 0.312935,
+      "priceCurrency": "TRY",
+      "lastFetchedAt": null,
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmko2ztgv0053tkiopofy8pe6",
+      "asset": "14",
+      "driver": "USD",
+      "manualPrice": 18.364926,
+      "priceCurrency": "TRY",
+      "lastFetchedAt": null,
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmko2ztko0055tkiov84sa0ja",
+      "asset": "15",
+      "driver": "USD",
+      "manualPrice": 61.159209,
+      "priceCurrency": "TRY",
+      "lastFetchedAt": null,
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmko2ztog0057tkiovmnd9ghn",
+      "asset": "16",
+      "driver": "USD",
+      "manualPrice": 59.454467,
+      "priceCurrency": "TRY",
+      "lastFetchedAt": null,
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmko2ztsc0059tkio7poon4bz",
+      "asset": "17",
+      "driver": "TRY",
+      "manualPrice": 5.537239,
+      "priceCurrency": "TRY",
+      "lastFetchedAt": null,
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmklixlhm002htkw04daineab",
+      "asset": "IUF",
+      "driver": "USD",
+      "manualPrice": 61.232592,
+      "priceCurrency": "TRY",
+      "lastFetchedAt": "2026-01-22T08:47:50.596Z",
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmko2ztw6005btkioh3eu33g4",
+      "asset": "18",
+      "driver": "USD",
+      "manualPrice": 6.560216,
+      "priceCurrency": "TRY",
+      "lastFetchedAt": null,
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmko2zu01005dtkioqjqyq7t0",
+      "asset": "19",
+      "driver": "TRY",
+      "manualPrice": 3.35933,
+      "priceCurrency": "TRY",
+      "lastFetchedAt": null,
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmklixnwd002ltkw0zgvsjavf",
+      "asset": "IUV",
+      "driver": "USD",
+      "manualPrice": 59.513035,
+      "priceCurrency": "TRY",
+      "lastFetchedAt": "2026-01-22T08:47:52.659Z",
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmklixmpl002jtkw0ey27fi3v",
+      "asset": "FSF",
+      "driver": "TRY",
+      "manualPrice": 5.54289,
+      "priceCurrency": "TRY",
+      "lastFetchedAt": "2026-01-22T08:47:54.179Z",
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmklixqwm002ptkw0c8bzeps3",
+      "asset": "TI2",
+      "driver": "TRY",
+      "manualPrice": 0.121919,
+      "priceCurrency": "TRY",
+      "lastFetchedAt": "2026-01-22T08:47:55.696Z",
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmklixprf002ntkw0sgz7pi9a",
+      "asset": "FBV",
+      "driver": "USD",
+      "manualPrice": 6.603589,
+      "priceCurrency": "TRY",
+      "lastFetchedAt": "2026-01-22T08:47:57.243Z",
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmklixrq7002rtkw0o5evxt17",
+      "asset": "IHT",
+      "driver": "TRY",
+      "manualPrice": 3.33662,
+      "priceCurrency": "TRY",
+      "lastFetchedAt": "2026-01-22T08:47:58.657Z",
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmkliyhd4002ttkw04vh21d5u",
+      "asset": "PL=F",
+      "driver": "USD",
+      "manualPrice": 78.93890675241157,
+      "priceCurrency": "USD",
+      "lastFetchedAt": "2026-01-22T08:48:30.156Z",
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmklix5kg0027tkw0oixq443v",
+      "asset": "TTRAK.IS",
+      "driver": "TRY",
+      "manualPrice": 564,
+      "priceCurrency": "TRY",
+      "lastFetchedAt": "2026-01-22T08:48:31.009Z",
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmkljkl8r004ltkw0d6op5yi4",
+      "asset": "GC=F",
+      "driver": "USD",
+      "manualPrice": 155.0790104007588,
+      "priceCurrency": "USD",
+      "lastFetchedAt": "2026-01-22T08:48:31.769Z",
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmkljdc0f0043tkw0rz1kk63d",
+      "asset": "AKBNK.IS",
+      "driver": "TRY",
+      "manualPrice": 79.45,
+      "priceCurrency": "TRY",
+      "lastFetchedAt": "2026-01-22T08:48:32.424Z",
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    }
+  ],
+  "assetDataSources": [
+    {
+      "id": "cmkmziszp0039tkrsj3b9xvj5",
+      "asset": "TI2",
+      "source": "TEFAS",
+      "ticker": "TI2",
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-20T19:26:16.646Z",
+      "updatedAt": "2026-01-20T19:58:33.374Z"
+    },
+    {
+      "id": "cmkmzi2hb001ntkrs04j8wvu8",
+      "asset": "TI1",
+      "source": "TEFAS",
+      "ticker": "TI1",
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-20T19:25:42.288Z",
+      "updatedAt": "2026-01-20T19:58:57.077Z"
+    },
+    {
+      "id": "cmkmzi1k4001ltkrsoytagdnu",
+      "asset": "AK2",
+      "source": "TEFAS",
+      "ticker": "AK2",
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-20T19:25:40.875Z",
+      "updatedAt": "2026-01-20T19:58:58.229Z"
+    },
+    {
+      "id": "cmkmcqq8v0009tkbst7ng0r9o",
+      "asset": "PL=F",
+      "source": "YAHOO",
+      "ticker": "PL=F",
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-20T08:48:35.168Z",
+      "updatedAt": "2026-01-21T11:31:50.675Z"
+    },
+    {
+      "id": "cmkmzhn74001ftkrsq6n2dcm1",
+      "asset": "PIL",
+      "source": "TEFAS",
+      "ticker": "PIL",
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-20T19:25:22.480Z",
+      "updatedAt": "2026-01-21T11:31:52.286Z"
+    },
+    {
+      "id": "cmkmzi97s001vtkrszd44xc1s",
+      "asset": "TTRAK.IS",
+      "source": "YAHOO",
+      "ticker": "TTRAK.IS",
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-20T19:25:51.016Z",
+      "updatedAt": "2026-01-21T11:31:53.932Z"
+    },
+    {
+      "id": "cmkmzict00021tkrsefop7a60",
+      "asset": "AFT",
+      "source": "TEFAS",
+      "ticker": "AFT",
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-20T19:25:55.668Z",
+      "updatedAt": "2026-01-21T11:31:55.800Z"
+    },
+    {
+      "id": "cmkmzifov0023tkrsu6wk577t",
+      "asset": "AOY",
+      "source": "TEFAS",
+      "ticker": "AOY",
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-20T19:25:59.278Z",
+      "updatedAt": "2026-01-21T11:31:57.543Z"
+    },
+    {
+      "id": "cmkmzig000027tkrs9vqiu69l",
+      "asset": "IOG",
+      "source": "TEFAS",
+      "ticker": "IOG",
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-20T19:25:59.809Z",
+      "updatedAt": "2026-01-21T11:31:59.219Z"
+    },
+    {
+      "id": "cmkmzijpv002jtkrsc1yqh5ws",
+      "asset": "GC=F",
+      "source": "YAHOO",
+      "ticker": "GC=F",
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-20T19:26:04.628Z",
+      "updatedAt": "2026-01-21T11:32:00.179Z"
+    },
+    {
+      "id": "cmkmzijbu002ftkrsilfhyr68",
+      "asset": "AKBNK.IS",
+      "source": "YAHOO",
+      "ticker": "AKBNK.IS",
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-20T19:26:04.123Z",
+      "updatedAt": "2026-01-21T11:32:01.004Z"
+    },
+    {
+      "id": "cmkmzij17002btkrsxnrodk6p",
+      "asset": "IUF",
+      "source": "TEFAS",
+      "ticker": "IUF",
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-20T19:26:03.740Z",
+      "updatedAt": "2026-01-21T11:32:02.687Z"
+    },
+    {
+      "id": "cmkmzil6v002ltkrsm177qwuu",
+      "asset": "PGSUS.IS",
+      "source": "YAHOO",
+      "ticker": "PGSUS.IS",
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-20T19:26:06.535Z",
+      "updatedAt": "2026-01-21T11:32:03.504Z"
+    },
+    {
+      "id": "cmkmzimx9002ttkrsvrp2w9d0",
+      "asset": "IUV",
+      "source": "TEFAS",
+      "ticker": "IUV",
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-20T19:26:08.781Z",
+      "updatedAt": "2026-01-21T11:32:05.440Z"
+    },
+    {
+      "id": "cmkmzin87002vtkrslrz294nh",
+      "asset": "FSF",
+      "source": "TEFAS",
+      "ticker": "FSF",
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-20T19:26:09.175Z",
+      "updatedAt": "2026-01-21T11:32:07.142Z"
+    },
+    {
+      "id": "cmkmziq8m0035tkrs97o842ke",
+      "asset": "FBV",
+      "source": "TEFAS",
+      "ticker": "FBV",
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-20T19:26:13.079Z",
+      "updatedAt": "2026-01-21T11:32:09.386Z"
+    },
+    {
+      "id": "cmkmzip100031tkrs5ts7z9tk",
+      "asset": "IHT",
+      "source": "TEFAS",
+      "ticker": "IHT",
+      "userId": "cmklfp8640000tkx4qy1kcyys",
+      "createdAt": "2026-01-20T19:26:11.508Z",
+      "updatedAt": "2026-01-21T11:32:11.042Z"
+    }
+  ],
+  "userPreferences": [
+    {
+      "id": "cmko2zu3x005ftkio4dma0dvq",
+      "key": "0",
+      "value": "[object Object]",
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmko2zuc9005htkiobtqn8k7w",
+      "key": "1",
+      "value": "[object Object]",
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmko2zug2005jtkiobqq7feht",
+      "key": "2",
+      "value": "[object Object]",
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmkliu1ab0015tkw0vz6rd9he",
+      "key": "usdTryRate",
+      "value": "43.3011",
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmkliu1o10019tkw0ckbk1ykg",
+      "key": "eurUsdRate",
+      "value": "1.1687704",
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    },
+    {
+      "id": "cmkliu1yn001dtkw0pt3oxyjv",
+      "key": "gbpUsdRate",
+      "value": "1.3412377",
+      "userId": "cmklfp8640000tkx4qy1kcyys"
+    }
+  ],
+  "counts": {
+    "users": 1,
+    "transactions": 77,
+    "monthlyHistory": 11,
+    "assetSettings": 40,
+    "assetDataSources": 17,
+    "userPreferences": 6
+  }
+}
