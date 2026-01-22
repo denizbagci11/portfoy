@@ -48,5 +48,6 @@ next-env.d.ts
 # backups and data exports
 /backups
 /yedekler
+src_backup_*
 remote-import-data.json
 *.json.backup
