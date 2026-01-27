@@ -14,6 +14,7 @@ import {
 } from 'recharts';
 import { Transaction } from '@/lib/types';
 import { getMonthlyHistory } from '@/actions';
+import { calculateAssetStats } from '@/lib/finance';
 
 interface PriceData {
     price: number;
@@ -42,46 +43,51 @@ export default function PortfolioChart({
     const [timeRange, setTimeRange] = useState<'6m' | '1y' | '2y' | 'all'>('all');
 
     const calculateCurrentValue = () => {
-        let totalUSD = 0;
-        const holdings: Record<string, number> = {};
+        // Group transactions by asset
+        const assetGroups: Record<string, Transaction[]> = {};
 
         transactions.forEach(t => {
-            const asset = (t.asset || 'GOLD').trim().toUpperCase();
-            const amount = Number(t.amount || 0);
-            if (t.type === 'BUY') {
-                holdings[asset] = (holdings[asset] || 0) + amount;
-            } else {
-                holdings[asset] = Math.max(0, (holdings[asset] || 0) - amount);
+            const asset = (t.asset || 'GC=F').trim().toUpperCase();
+            if (!assetGroups[asset]) {
+                assetGroups[asset] = [];
             }
+            assetGroups[asset].push(t);
         });
 
         const effectiveUsdRate = Number(currentUsdRate > 0 ? currentUsdRate : 30.0);
+        let totalUSD = 0;
 
-        Object.keys(holdings).forEach(asset => {
-            const amount = holdings[asset];
-            if (amount <= 0) return;
+        // Calculate stats for each asset using the same logic as DashboardStats
+        Object.keys(assetGroups).forEach(asset => {
+            const assetTransactions = assetGroups[asset];
 
-            let priceUSD = 0;
+            // Determine current price in USD for this asset
+            let currentPriceUSD = 0;
 
             if (asset === 'TRY') {
-                priceUSD = effectiveUsdRate > 0 ? 1 / effectiveUsdRate : 0;
+                currentPriceUSD = effectiveUsdRate > 0 ? 1 / effectiveUsdRate : 0;
             } else if (asset === 'USD') {
-                priceUSD = 1;
+                currentPriceUSD = 1;
             } else if (asset === 'EUR') {
-                priceUSD = Number(eurUsdRate);
+                currentPriceUSD = Number(eurUsdRate);
             } else if (asset === 'GBP') {
-                priceUSD = Number(gbpUsdRate);
+                currentPriceUSD = Number(gbpUsdRate);
             } else {
                 const priceData = currentPrices[asset];
                 if (priceData && Number(priceData.price) > 0) {
                     if (priceData.currency === 'TRY') {
-                        priceUSD = effectiveUsdRate > 0 ? Number(priceData.price) / effectiveUsdRate : 0;
+                        currentPriceUSD = effectiveUsdRate > 0 ? Number(priceData.price) / effectiveUsdRate : 0;
                     } else {
-                        priceUSD = Number(priceData.price);
+                        currentPriceUSD = Number(priceData.price);
                     }
                 }
             }
-            totalUSD += amount * priceUSD;
+
+            // Use calculateAssetStats to get the proper value including realized profits
+            const stats = calculateAssetStats(assetTransactions, currentPriceUSD, effectiveUsdRate);
+
+            // Add the total value (current holdings value + realized profit already included in stats)
+            totalUSD += stats.totalValueUSD;
         });
 
         return {
