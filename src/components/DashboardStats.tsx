@@ -134,6 +134,9 @@ export default function DashboardStats() {
     const [loadingMessage, setLoadingMessage] = useState('Portföy verileri bekleniyor...');
     const [loadingProgress, setLoadingProgress] = useState(0);
 
+    // Tab state for active vs archived assets
+    const [activeTab, setActiveTab] = useState<'active' | 'archived'>('active');
+
     // Fetch TEFAS price dynamically
     const handleFetchTefasPrice = async (asset: string, isAuto = false) => {
         try {
@@ -316,6 +319,18 @@ export default function DashboardStats() {
             };
         });
     }, [filteredTransactions, assets, viewSettings, usdTryRate, eurUsdRate, gbpUsdRate]);
+
+    // Separate active and archived assets
+    const activeAssets = useMemo(() => {
+        return assetStats.filter(stat => stat.totalAmount > 0);
+    }, [assetStats]);
+
+    const archivedAssets = useMemo(() => {
+        return assetStats.filter(stat => stat.totalAmount === 0);
+    }, [assetStats]);
+
+    // Get current display list based on active tab
+    const displayAssets = activeTab === 'active' ? activeAssets : archivedAssets;
 
     // Single-pass Auto Update
     useEffect(() => {
@@ -688,9 +703,37 @@ export default function DashboardStats() {
                 <TrendingUp className="position-absolute bottom-0 end-0 text-white opacity-10" size={300} style={{ transform: 'translate(20%, 20%)' }} />
             </div>
 
+            {/* Tab Navigation */}
+            <div className="mb-4">
+                <ul className="nav nav-tabs nav-fill border-0 gap-2">
+                    <li className="nav-item">
+                        <button
+                            className={`nav-link ${activeTab === 'active' ? 'active bg-primary text-white' : 'bg-light text-dark'} fw-bold border-0 rounded shadow-sm position-relative`}
+                            onClick={() => setActiveTab('active')}
+                        >
+                            Özet Portföy
+                            <span className={`badge ${activeTab === 'active' ? 'bg-white text-primary' : 'bg-primary text-white'} ms-2`}>
+                                {activeAssets.length}
+                            </span>
+                        </button>
+                    </li>
+                    <li className="nav-item">
+                        <button
+                            className={`nav-link ${activeTab === 'archived' ? 'active bg-secondary text-white' : 'bg-light text-dark'} fw-bold border-0 rounded shadow-sm position-relative`}
+                            onClick={() => setActiveTab('archived')}
+                        >
+                            Eski Varlıklar
+                            <span className={`badge ${activeTab === 'archived' ? 'bg-white text-secondary' : 'bg-secondary text-white'} ms-2`}>
+                                {archivedAssets.length}
+                            </span>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+
             {/* Assets Grid */}
             <div className="row g-4 mb-5">
-                {assetStats.map((stat) => (
+                {displayAssets.map((stat) => (
                     <div key={stat.asset} className="col-12 col-md-6 col-lg-4">
                         <div className="card h-100 shadow-sm border-0 hover-lift transition-all">
                             <div className="card-header bg-dark text-white border-0 py-3 d-flex justify-content-between align-items-center">
@@ -813,7 +856,9 @@ export default function DashboardStats() {
                         </div>
                     </div>
                 ))}
-                {assetStats.length === 0 && <div className="col-12 text-center py-5 text-muted">Varlık bulunamadı.</div>}
+                {displayAssets.length === 0 && <div className="col-12 text-center py-5 text-muted">
+                    {activeTab === 'active' ? 'Aktif varlık bulunamadı.' : 'Eski varlık bulunamadı.'}
+                </div>}
             </div>
         </div>
     );
