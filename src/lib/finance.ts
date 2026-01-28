@@ -186,8 +186,11 @@ export const calculateAssetStats = (transactions: Transaction[], currentPriceUSD
     // XIRR Hesapla
     const xirrValue = calculateXirr(cashflows);
 
-    const totalProfitUSD = (currentValueUSD - totalCostUSD) + realizedProfitUSD;
+    // TRY kar hesaplaması (doğru)
     const totalProfitTRY = (currentValueTRY - totalCostTRY) + realizedProfitTRY;
+
+    // USD kar hesaplaması: TL karını güncel kura böl (basit ve tutarlı)
+    const totalProfitUSD = currentUsdTryRate > 0 ? totalProfitTRY / currentUsdTryRate : 0;
 
     return {
         totalAmount,
